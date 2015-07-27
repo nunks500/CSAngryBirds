@@ -9,11 +9,19 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class MyGdxGame extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture img;
+	String CurrentState;
 	
 	@Override
 	public void create () {
-		batch = new SpriteBatch();
-		img = new Texture("badlogic.jpg");
+		CurrentState = "Menu";
+		while(CurrentState == "Menu"){
+			batch = new SpriteBatch();
+			img = new Texture("badlogic.jpg");
+			
+		}
+		
+		
+		
 	}
 
 	@Override
