@@ -24,7 +24,7 @@ import com.sun.prism.image.ViewPort;
 
 public class MyGdxGame extends ApplicationAdapter implements  ActionListener{
 	SpriteBatch batch;
-	Sprite img,img2,porco,pigshoot,exp10,exp1,exp2,exp3;
+	Sprite img,img2,porco,pigshoot,exp10,exp1,exp2,exp3,porco2;
 	String CurrentState;
 	OrthographicCamera camera;
 	Viewport viewport;
@@ -47,6 +47,8 @@ public class MyGdxGame extends ApplicationAdapter implements  ActionListener{
 		exp1=new Sprite(new Texture("exp1.png"));
 		exp2=new Sprite(new Texture("exp2.png"));
 		exp3=new Sprite(new Texture("exp3.png"));
+		pigshoot = new Sprite(new Texture("piece.png"));
+		porco2 = new Sprite(new Texture("backporco.png"));
 		animat.add(exp10);
 		animat.add(exp1);
 		animat.add(exp2);
@@ -86,6 +88,11 @@ public class MyGdxGame extends ApplicationAdapter implements  ActionListener{
 		
 	if(CurrentState.equals("Menu")){
 		menushower();
+		if(Gdx.input.isKeyPressed(Input.Keys.ENTER) && CurrentOption == exit)
+			Gdx.app.exit();
+		else if(Gdx.input.isKeyPressed(Input.Keys.ENTER) && CurrentOption == start)
+			CurrentState = "Game";
+	
 	}	
 	
 	}
@@ -104,8 +111,7 @@ public class MyGdxGame extends ApplicationAdapter implements  ActionListener{
 		batch.draw(bird.getKeyFrame(time),400,250);
 		batch.draw(porco,porcoposinit,50);
 		if(porcoposinit > 100){
-			porco = new Sprite(new Texture("backporco.png"));
-			pigshoot = new Sprite(new Texture("piece.png"));
+			porco = porco2;
 			batch.draw(pigshoot,170,90);
 			porc.stop();
 			batch.draw(animat.get(index),390,240);
