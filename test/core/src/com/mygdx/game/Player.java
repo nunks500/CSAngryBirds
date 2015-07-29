@@ -12,10 +12,11 @@ public class Player {
 	int idweapon;
 	Sprite playerf,playerb,playerl,playerr;
 	int facing;
+	private Collision collision;
 	
 	Player(){
-		X=0;
-		Y=0;
+		X=40;
+		Y=40;
 		idweapon=0;
 		playerf = new Sprite(new Texture("pigfront.png"));
 		playerb = new Sprite(new Texture("pigback.png"));
@@ -28,16 +29,16 @@ public class Player {
 	
 	void draw(SpriteBatch batch){
 		updatefacing();
-		if(facing == 0){
+		if(facing == 0 ){
 			batch.draw(playerf,X,Y);
 		}
-		else if(facing == 1){
+		else if(facing == 1 ){
 			batch.draw(playerb,X,Y);
 		}
-		else if(facing == 2){
+		else if(facing == 2 ){
 			batch.draw(playerl,X,Y);
 		}
-		else if(facing == 3){
+		else if(facing == 3 ){
 			batch.draw(playerr,X,Y);
 		}
 		
@@ -47,19 +48,34 @@ public class Player {
 		// TODO Auto-generated method stub
 		if(Gdx.input.isKeyPressed(Input.Keys.DOWN)){
 			facing = 0;
-			Y--;
+			if(!collision.detect(0))
+			Y -= 5;
 		}
 		else if(Gdx.input.isKeyPressed(Input.Keys.UP)){
 			facing = 1;
-			Y++;
+			if(!collision.detect(1))
+			Y += 5;
 		}
 		else if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
 			facing = 2;
-			X--;
+			if(!collision.detect(2))
+			X -= 5;
 		}
 		else if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
 			facing = 3;
-			X++;
+			if(!collision.detect(3))
+			X += 5;
 		}
 	}
+
+	public void setcol(Collision x){
+		collision = x;
+	}
+	public int getX(){
+		return X;
+	}
+	public int getY(){
+		return Y;
+	}
+	
 }

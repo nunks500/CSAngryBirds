@@ -16,6 +16,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -23,23 +24,31 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.sun.prism.image.ViewPort;
 
 public class MyGdxGame extends ApplicationAdapter implements  ActionListener{
+
 	SpriteBatch batch,game;
-	Sprite img,img2,porco,pigshoot,exp10,exp1,exp2,exp3,porco2;
+	Rectangle wall1,chara;
+	Sprite img,img2,porco,pigshoot,exp10,exp1,exp2,exp3,porco2,tl,ml,bl;
 	String CurrentState;
 	OrthographicCamera camera;
 	Viewport viewport;
 	final float gamewidth = 640;
 	final float gameheight = 480;
-	int CurrentOption=0,start=0,exit=70,time=0,porcoposinit=-50,index=0;
+	int CurrentOption=0,start=0,exit=70,time=0,porcoposinit=-50,index=0,nextone=0;
 	long previoustime; //identifies where the user is(which option)
 	Animation bird;
 	Timer birdi= new Timer(2000,this);
 	Timer porc= new Timer(200,this);
 	private ArrayList<Sprite> animat = new ArrayList<Sprite>();
+	private ArrayList<Wall> paredes = new ArrayList<Wall>();
 	Player player1;
-	
+	private int[][] map = {{1,1,1,1,1,1,1,1,1,1,1,1,1,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,1,1,1,1,1,1,1,1,1,1,1,1,1}};
+	Collision collision;
+
+
+
 	@Override
 	public void create () {
+		mapget();
 		CurrentState = "Menu";
 		img = new Sprite(new Texture("Menu.jpg"));
 		img2 = new Sprite(new Texture("SmallerTiro.png"));
@@ -63,17 +72,17 @@ public class MyGdxGame extends ApplicationAdapter implements  ActionListener{
 		//camera = new OrthographicCamera(1680,1200);
 		//this.camera.position.set(1680/2, 1200/2, 0f); Outro modo
 		porc.addActionListener(new ActionListener() {
-	        public void actionPerformed(ActionEvent evt) {
-	        	porcoposinit += 2;   	
-	        }
-	    });
+			public void actionPerformed(ActionEvent evt) {
+				porcoposinit += 2;   	
+			}
+		});
 		previoustime=System.nanoTime();
 		birdi.start();
 		porc.start();
-		
-		
+
+
 	}
-//Descomentar para fullscreen parcial
+	//Descomentar para fullscreen parcial
 	@Override
 	public void resize(int width,int height){
 		viewport.update(width, height);
@@ -86,30 +95,56 @@ public class MyGdxGame extends ApplicationAdapter implements  ActionListener{
 		Gdx.gl.glClearColor(0, 0, 0, 0);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		camera.update();
-		
-	if(CurrentState.equals("Menu")){
-		menushower();
-		if(Gdx.input.isKeyPressed(Input.Keys.ENTER) && CurrentOption == exit)
-			Gdx.app.exit();
-		else if(Gdx.input.isKeyPressed(Input.Keys.ENTER) && CurrentOption == start)
+
+		if(CurrentState.equals("Menu")){
+			menushower();
+			if(Gdx.input.isKeyPressed(Input.Keys.ENTER) && CurrentOption == exit)
+				Gdx.app.exit();
+			else if(Gdx.input.isKeyPressed(Input.Keys.ENTER) && CurrentOption == start)
 			{
-			CurrentState = "Game";
-			cleansprites();
-			player1 = new Player();
-			game = new SpriteBatch();
+				CurrentState = "Game";
+				cleansprites();
+				player1 = new Player();
+				game = new SpriteBatch();
 			}
-	
+
+		}
+		else if(CurrentState.equals("Game")){
+			game.setProjectionMatrix(camera.combined);
+			game.begin();
+			collision = new Collision(paredes,player1);
+			player1.setcol(collision);
+			player1.draw(game);
+			mapdraw(game);
+			game.end();
+		}
+
 	}
-	else if(CurrentState.equals("Game")){
-		game.setProjectionMatrix(camera.combined);
-		game.begin();
-		player1.draw(game);
-		game.end();
+
+	public void mapget() {
+		// TODO Auto-generated method stub
+		for(int i=0;i<map.length;i++){
+			for(int j=0;j<map[i].length;j++){				
+				if(map[i][j] == 1){
+					CementWall cime = new CementWall(i,j,map);
+					paredes.add(cime);
+				}
+
+			}
+		}
+
 	}
-	
+	public void mapdraw(SpriteBatch game) {
+		// TODO Auto-generated method stub
+		for(int i=0;i<paredes.size();i++){
+			game.draw(paredes.get(i).getsprite(),paredes.get(i).getX(),paredes.get(i).getY());
+			//System.out.println(paredes.get(15).getX()+"|"+paredes.get(15).getY());
+			//game.draw(paredes.get(15).getsprite(),paredes.get(15).getX(),paredes.get(15).getY());
+		}
+
+
 	}
-	
-	private void cleansprites() {
+	public void cleansprites() {
 		// TODO Auto-generated method stub
 		img.getTexture().dispose();
 		img2.getTexture().dispose();
@@ -120,7 +155,9 @@ public class MyGdxGame extends ApplicationAdapter implements  ActionListener{
 		exp2.getTexture().dispose();
 		exp3.getTexture().dispose();
 		porco2.getTexture().dispose();
-		
+
+
+
 	}
 	private void menushower() {
 		// TODO Auto-generated method stub
@@ -128,7 +165,7 @@ public class MyGdxGame extends ApplicationAdapter implements  ActionListener{
 			CurrentOption=exit;
 		else if(Gdx.input.isKeyPressed(Input.Keys.UP) && CurrentOption!=start)
 			CurrentOption=start;
-		
+
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
 		batch.draw(img, 0, 0);
@@ -143,19 +180,19 @@ public class MyGdxGame extends ApplicationAdapter implements  ActionListener{
 			if((System.nanoTime() - previoustime)/1000000 > 50){
 				if(index==3)index=0;
 				else
-			index++;
-				
-			previoustime = System.nanoTime();
+					index++;
+
+				previoustime = System.nanoTime();
 			}
 		}
 		batch.end();
-		
+
 	}
 	@Override
 	public void dispose(){
 		batch.dispose();
 		game.dispose();
-		
+
 	}
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
@@ -163,9 +200,9 @@ public class MyGdxGame extends ApplicationAdapter implements  ActionListener{
 			time=0;
 		}
 		else
-		time++;
-		
+			time++;
+
 	}
-	
+
 	
 }
