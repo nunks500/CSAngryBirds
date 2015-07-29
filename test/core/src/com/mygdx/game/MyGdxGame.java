@@ -23,7 +23,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.sun.prism.image.ViewPort;
 
 public class MyGdxGame extends ApplicationAdapter implements  ActionListener{
-	SpriteBatch batch;
+	SpriteBatch batch,game;
 	Sprite img,img2,porco,pigshoot,exp10,exp1,exp2,exp3,porco2;
 	String CurrentState;
 	OrthographicCamera camera;
@@ -36,6 +36,7 @@ public class MyGdxGame extends ApplicationAdapter implements  ActionListener{
 	Timer birdi= new Timer(2000,this);
 	Timer porc= new Timer(200,this);
 	private ArrayList<Sprite> animat = new ArrayList<Sprite>();
+	Player player1;
 	
 	@Override
 	public void create () {
@@ -91,12 +92,36 @@ public class MyGdxGame extends ApplicationAdapter implements  ActionListener{
 		if(Gdx.input.isKeyPressed(Input.Keys.ENTER) && CurrentOption == exit)
 			Gdx.app.exit();
 		else if(Gdx.input.isKeyPressed(Input.Keys.ENTER) && CurrentOption == start)
+			{
 			CurrentState = "Game";
+			cleansprites();
+			player1 = new Player();
+			game = new SpriteBatch();
+			}
 	
-	}	
+	}
+	else if(CurrentState.equals("Game")){
+		game.setProjectionMatrix(camera.combined);
+		game.begin();
+		player1.draw(game);
+		game.end();
+	}
 	
 	}
 	
+	private void cleansprites() {
+		// TODO Auto-generated method stub
+		img.getTexture().dispose();
+		img2.getTexture().dispose();
+		porco.getTexture().dispose();
+		pigshoot.getTexture().dispose();
+		exp10.getTexture().dispose();
+		exp1.getTexture().dispose();
+		exp2.getTexture().dispose();
+		exp3.getTexture().dispose();
+		porco2.getTexture().dispose();
+		
+	}
 	private void menushower() {
 		// TODO Auto-generated method stub
 		if(Gdx.input.isKeyPressed(Input.Keys.DOWN) && CurrentOption != exit)
@@ -129,6 +154,7 @@ public class MyGdxGame extends ApplicationAdapter implements  ActionListener{
 	@Override
 	public void dispose(){
 		batch.dispose();
+		game.dispose();
 		
 	}
 	@Override
