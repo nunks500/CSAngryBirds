@@ -15,6 +15,10 @@ public class Collision {
 		this.paredes = paredes;
 		player = player1;
 	}
+	public Collision(ArrayList<Wall> paredes2) {
+		// TODO Auto-generated constructor stub
+		paredes=paredes2;
+	}
 	public boolean detect(int id) {
 		// TODO Auto-generated method stub
 		Boolean detected = false;
@@ -35,6 +39,17 @@ public class Collision {
 		for(int i=0;i<paredes.size();i++){
 			Rectangle wall1 = new Rectangle(paredes.get(i).getX(),paredes.get(i).getY(),paredes.get(i).getsprite().getWidth(),paredes.get(i).getsprite().getHeight()-5);
 			if(chara.overlaps(wall1))
+				return true;
+		}
+		
+		 return false;
+	}
+	
+	public boolean overlapping(Gun gun){
+		Rectangle guna = new Rectangle((float)gun.getX(),(float)gun.getY(),gun.getsprite().getWidth(),gun.getsprite().getHeight());
+		for(int i=0;i<paredes.size();i++){
+			Rectangle wall1 = new Rectangle(paredes.get(i).getX(),paredes.get(i).getY(),paredes.get(i).getsprite().getWidth(),paredes.get(i).getsprite().getHeight()-5);
+			if(guna.overlaps(wall1))
 				return true;
 		}
 		

@@ -78,4 +78,8 @@ public class Player {
 		return Y;
 	}
 	
+	public int getfacing(){
+		return facing;
+	}
+	
 }

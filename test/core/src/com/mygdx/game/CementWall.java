@@ -22,12 +22,12 @@ public class CementWall extends Wall{
 		{
 			Wall = new Sprite(new Texture("tl.png"));
 			X=0;
-			Y=460;
+			Y=Gdx.graphics.getHeight() - 20;
 		}
 		
 		else if(x2 !=0 && y2 ==0 && x2!=(map.length-1)){
 			Wall = new Sprite(new Texture("ml.png"));
-			Y=460-(x2*46);
+			Y=Gdx.graphics.getHeight()-20-(x2*46);
 			X=0;
 			
 		}
@@ -40,7 +40,7 @@ public class CementWall extends Wall{
 		else if (x2 ==0 && y2 == map.length-1){
 		
 			X=Gdx.graphics.getWidth()-46;
-			Y=460;
+			Y=Gdx.graphics.getHeight()-20;
 			Wall = new Sprite(new Texture("tr.png"));
 			
 		}

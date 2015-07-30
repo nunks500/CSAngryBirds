@@ -3,6 +3,7 @@ package com.mygdx.game;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Random;
 
 import javax.swing.Timer;
 
@@ -40,9 +41,10 @@ public class MyGdxGame extends ApplicationAdapter implements  ActionListener{
 	Timer porc= new Timer(200,this);
 	private ArrayList<Sprite> animat = new ArrayList<Sprite>();
 	private ArrayList<Wall> paredes = new ArrayList<Wall>();
+	private ArrayList<Gun> guns = new ArrayList<Gun>();
 	Player player1;
 	private int[][] map = {{1,1,1,1,1,1,1,1,1,1,1,1,1,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,1,1,1,1,1,1,1,1,1,1,1,1,1}};
-	Collision collision;
+	Collision collision,armaz;
 
 
 
@@ -116,11 +118,85 @@ public class MyGdxGame extends ApplicationAdapter implements  ActionListener{
 			player1.setcol(collision);
 			player1.draw(game);
 			mapdraw(game);
+			generateguns();
+			drawguns(game,guns,player1);
 			game.end();
 		}
 
 	}
 
+	private void drawguns(SpriteBatch game2, ArrayList<Gun> guns2,Player player1) {
+		// TODO Auto-generated method stub
+		for(int i=0;i<guns.size();i++){
+			guns.get(i).draw(game,player1.getfacing());
+		}
+		
+	}
+	private void generateguns() {
+		// TODO Auto-generated method stub
+		int temp;
+		Random random2 = new Random();
+		temp =  random2.nextInt(700);
+		if(temp == 150 &&  guns.size() < 5){
+			Random tipoarma = new Random();
+			int arma = tipoarma.nextInt(10);
+			if(arma <= 5){
+				Boolean check = false;
+				glock glock = null;
+				System.out.println("Entrei");
+				while(check == false){
+				glock= new glock();
+				Collision armaz = new Collision(paredes);
+				if(!armaz.overlapping(glock))//Checking collision of the gun with the walls
+				check=true;
+				}
+				guns.add(glock);
+				
+			}
+			else if(arma == 6 || arma == 7){
+				Boolean check = false;
+				m4a1 m4a1 = null;
+				System.out.println("Entrei");
+				while(check == false){
+				m4a1= new m4a1();
+				Collision armaz = new Collision(paredes);
+				if(!armaz.overlapping(m4a1))//Checking collision of the gun with the walls
+				check=true;
+				}
+				guns.add(m4a1);
+				
+			}
+			else if(arma == 8){
+				Boolean check = false;
+				ak47 ak = null;
+				System.out.println("Entrei");
+				while(check == false){
+				ak= new ak47();
+				Collision armaz = new Collision(paredes);
+				if(!armaz.overlapping(ak))//Checking collision of the gun with the walls
+				check=true;
+				}
+				guns.add(ak);
+			}
+			else if(arma == 9){
+				Boolean check = false;
+				Bazuka bazuka = null;
+				System.out.println("Entrei");
+				while(check == false){
+				bazuka= new Bazuka();
+				Collision armaz = new Collision(paredes);
+				if(!armaz.overlapping(bazuka))//Checking collision of the gun with the walls
+				check=true;
+				}
+				guns.add(bazuka);
+			}
+			
+			
+		}
+		
+		
+		
+	}
 	public void mapget() {
 		// TODO Auto-generated method stub
 		for(int i=0;i<map.length;i++){
@@ -191,6 +267,7 @@ public class MyGdxGame extends ApplicationAdapter implements  ActionListener{
 	@Override
 	public void dispose(){
 		batch.dispose();
+		if(game!=null)
 		game.dispose();
 
 	}
