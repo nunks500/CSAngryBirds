@@ -16,6 +16,7 @@ public class glock extends Gun{
 	Sprite glockb,glockf,glockl,glockr;
 	int pickedup;
 	Rectangle area;
+	
 
 	
 	glock(){
@@ -28,6 +29,8 @@ public class glock extends Gun{
 		glockl = new Sprite(new Texture("glockleft.png"));
 		glockr = new Sprite(new Texture("glockright.png"));
 		pickedup = 0;
+	
+		
 	}
 	
 
@@ -37,28 +40,37 @@ public class glock extends Gun{
 		switch(pickedup){
 		case 1:
 			if(facing == 0 ){
+				
 				game.draw(glockf,X,Y);
 			}
 			else if(facing == 1 ){
+				
 				game.draw(glockb,X,Y);
 			}
 			else if(facing == 2 ){
+				
 				game.draw(glockl,X,Y);
 			}
 			else if(facing == 3 ){
+				
 				game.draw(glockr,X,Y);
 			}
 			break;
 		case 0:
 			game.draw(glockr,X,Y);
+			
+			break;
 		}
 		
 	}
 
 	private void update() {
 		// TODO Auto-generated method stub
-		if(Y > actualY)
+		if(Y > actualY){
 			Y--;
+		}
+		
+	
 	}
 
 
@@ -83,6 +95,50 @@ public class glock extends Gun{
 	public Sprite getsprite() {
 		// TODO Auto-generated method stub
 		return glockr;
+	}
+
+
+
+	@Override
+	public int getpickedup() {
+		// TODO Auto-generated method stub
+		return pickedup;
+	}
+
+
+
+	@Override
+	public void setpickedup(int pickedup) {
+		// TODO Auto-generated method stub
+		this.pickedup=pickedup;
+	}
+	
+
+	@Override
+	public void setX(int X) {
+		// TODO Auto-generated method stub
+		this.X=X;
+	}
+
+
+
+	@Override
+	public void setY(int Y) {
+		// TODO Auto-generated method stub
+		this.Y=Y;
+		actualY = Y;
+		
+	}
+	@Override
+	public Sprite getsprite2() {
+		// TODO Auto-generated method stub
+		return glockf;
+	}
+	
+	@Override
+	public int getotherY() {
+		// TODO Auto-generated method stub
+		return Y;
 	}
 	
 

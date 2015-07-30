@@ -34,7 +34,7 @@ public class MyGdxGame extends ApplicationAdapter implements  ActionListener{
 	Viewport viewport;
 	final float gamewidth = 640;
 	final float gameheight = 480;
-	int CurrentOption=0,start=0,exit=70,time=0,porcoposinit=-50,index=0,nextone=0;
+	int CurrentOption=0,start=0,exit=70,time=0,porcoposinit=-50,index=0,nextone=0,index2=0;
 	long previoustime; //identifies where the user is(which option)
 	Animation bird;
 	Timer birdi= new Timer(2000,this);
@@ -120,11 +120,25 @@ public class MyGdxGame extends ApplicationAdapter implements  ActionListener{
 			mapdraw(game);
 			generateguns();
 			drawguns(game,guns,player1);
+			equipped(game,guns,player1);
 			game.end();
 		}
 
 	}
 
+	private void equipped(SpriteBatch game2, ArrayList<Gun> guns, Player player1) {
+		// TODO Auto-generated method stub
+		Collision collision = new Collision(paredes,player1);
+		 index2 = collision.pegou(guns); //index of gun -equals 20 if didnt found it
+		
+		 if(index2 != 20){
+			guns.get(index2).setpickedup(1);
+			guns.get(index2).setX(player1.getX());
+			guns.get(index2).setY(player1.getY());
+		}
+		
+		
+	}
 	private void drawguns(SpriteBatch game2, ArrayList<Gun> guns2,Player player1) {
 		// TODO Auto-generated method stub
 		for(int i=0;i<guns.size();i++){

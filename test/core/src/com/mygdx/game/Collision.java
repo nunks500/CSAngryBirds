@@ -19,6 +19,7 @@ public class Collision {
 		// TODO Auto-generated constructor stub
 		paredes=paredes2;
 	}
+	
 	public boolean detect(int id) {
 		// TODO Auto-generated method stub
 		Boolean detected = false;
@@ -55,5 +56,17 @@ public class Collision {
 		
 		 return false;
 	}
+	
+	public int pegou(ArrayList<Gun> gun){
+		for(int i=0;i<gun.size();i++){
+		Rectangle guna = new Rectangle((float)gun.get(i).getX(),(float)gun.get(i).getotherY(),gun.get(i).getsprite().getWidth(),gun.get(i).getsprite().getHeight());
+		Rectangle character = new Rectangle((float)player.getX(),(float)player.getY(),player.SpriteRight().getWidth(),player.SpriteRight().getHeight());
+		if(guna.overlaps(character))
+			return i;
+		}
+		
+			return 20;
+	}
+	
 		
 }

@@ -76,5 +76,42 @@ public class m4a1 extends Gun{
 		// TODO Auto-generated method stub
 		return m4a1r;
 	}
+	@Override
+	public int getpickedup() {
+		// TODO Auto-generated method stub
+		return pickedup;
+	}
+	@Override
+	public void setpickedup(int pickedup) {
+		// TODO Auto-generated method stub
+		this.pickedup=pickedup;
+	}
+	
+
+	@Override
+	public void setX(int X) {
+		// TODO Auto-generated method stub
+		this.X=X;
+	}
+
+
+
+	@Override
+	public void setY(int Y) {
+		// TODO Auto-generated method stub
+		this.Y=Y;
+		actualY =Y;
+	}
+	@Override
+	public Sprite getsprite2() {
+		// TODO Auto-generated method stub
+		return m4a1f;
+	}
+	
+	@Override
+	public int getotherY() {
+		// TODO Auto-generated method stub
+		return Y;
+	}
 
 }

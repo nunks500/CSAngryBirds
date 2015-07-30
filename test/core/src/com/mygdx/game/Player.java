@@ -82,4 +82,8 @@ public class Player {
 		return facing;
 	}
 	
+	public Sprite SpriteRight(){
+		return playerr;
+	}
+	
 }

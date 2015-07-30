@@ -16,6 +16,7 @@ public class Bazuka extends Gun{
 	Sprite bazukab,bazukaf,bazukal,bazukar;
 	int pickedup;
 	Rectangle area;
+	Boolean notdone = true;
 
 	
 	Bazuka(){
@@ -33,6 +34,7 @@ public class Bazuka extends Gun{
 
 
 	public void draw(SpriteBatch game,int facing){
+		
 		update();
 		switch(pickedup){
 		case 1:
@@ -58,7 +60,9 @@ public class Bazuka extends Gun{
 	private void update() {
 		// TODO Auto-generated method stub
 		if(Y > actualY)
-			Y--;
+		Y--;
+		
+		
 	}
 
 
@@ -83,6 +87,48 @@ public class Bazuka extends Gun{
 	public Sprite getsprite() {
 		// TODO Auto-generated method stub
 		return bazukar;
+	}
+
+
+
+	@Override
+	public int getpickedup() {
+		// TODO Auto-generated method stub
+		return pickedup;
+	}
+
+
+
+	@Override
+	public void setpickedup(int pickedup) {
+		// TODO Auto-generated method stub
+		this.pickedup=pickedup;
+	}
+
+	@Override
+	public void setX(int X) {
+		// TODO Auto-generated method stub
+		this.X=X;
+	}
+
+
+
+	@Override
+	public void setY(int Y) {
+		// TODO Auto-generated method stub
+		this.Y=Y;
+		actualY = Y;
+	}
+	
+	@Override
+	public Sprite getsprite2() {
+		// TODO Auto-generated method stub
+		return bazukaf;
+	}
+	@Override
+	public int getotherY() {
+		// TODO Auto-generated method stub
+		return Y;
 	}
 	
 
