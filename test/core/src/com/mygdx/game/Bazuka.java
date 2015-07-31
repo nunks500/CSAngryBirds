@@ -3,6 +3,7 @@ package com.mygdx.game;
 import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -17,6 +18,8 @@ public class Bazuka extends Gun{
 	int pickedup;
 	Rectangle area;
 	Boolean notdone = true;
+	Boolean shooting;
+	float time;
 
 	
 	Bazuka(){
@@ -29,6 +32,8 @@ public class Bazuka extends Gun{
 		bazukal = new Sprite(new Texture("bazukaleft.png"));
 		bazukar = new Sprite(new Texture("bazukaright.png"));
 		pickedup = 0;
+		shooting =false;
+		time = -1;
 	}
 	
 
@@ -131,5 +136,32 @@ public class Bazuka extends Gun{
 		return Y;
 	}
 	
+	@Override
+	public void setshooting(Boolean bol) {
+		// TODO Auto-generated method stub
+		shooting = bol;
+	}
+	public boolean animaçaoarma() {
+		// TODO Auto-generated method stub
+		if(time==-1){
+			if(Gdx.input.isKeyPressed(Input.Keys.SPACE))
+			{
+				time=System.nanoTime();
+				return true;
+
+			}
+		}
+		else{
+			if((System.nanoTime()-time/1000000)<500){
+				return true;
+			}
+			else {
+				time=-1;
+				return false;
+			}
+		}
+		return false;
+
+	}
 
 }

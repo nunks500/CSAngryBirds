@@ -50,6 +50,7 @@ public class MyGdxGame extends ApplicationAdapter implements  ActionListener{
 
 	@Override
 	public void create () {
+		
 		mapget();
 		CurrentState = "Menu";
 		img = new Sprite(new Texture("Menu.jpg"));
@@ -81,6 +82,7 @@ public class MyGdxGame extends ApplicationAdapter implements  ActionListener{
 		previoustime=System.nanoTime();
 		birdi.start();
 		porc.start();
+		
 
 
 	}
@@ -95,6 +97,7 @@ public class MyGdxGame extends ApplicationAdapter implements  ActionListener{
 	@Override
 	public void render () {
 		Gdx.gl.glClearColor(0, 0, 0, 0);
+		
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		camera.update();
 
@@ -285,6 +288,7 @@ public class MyGdxGame extends ApplicationAdapter implements  ActionListener{
 	}
 	@Override
 	public void dispose(){
+		if(batch!=null)
 		batch.dispose();
 		if(game!=null)
 		game.dispose();

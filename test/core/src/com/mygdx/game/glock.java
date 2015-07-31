@@ -3,6 +3,7 @@ package com.mygdx.game;
 import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -13,11 +14,11 @@ public class glock extends Gun{
 	int Y = Gdx.graphics.getHeight();
 	int actualY=0;
 	int power;
-	Sprite glockb,glockf,glockl,glockr,glockr2;
+	Sprite glockb,glockf,glockl,glockr,glockr2,glockbs,glockfs,glockls,glockrs;
 	int pickedup;
 	Rectangle area;
-	
-
+	Boolean shooting;
+	float time;
 	
 	glock(){
 		Random y = new Random();
@@ -29,8 +30,13 @@ public class glock extends Gun{
 		glockl = new Sprite(new Texture("glockleft.png"));
 		glockr = new Sprite(new Texture("glockright.png"));
 		glockr2 =  new Sprite(new Texture("glockright2.png"));
+		glockbs = new Sprite(new Texture("glockbackshoot.png"));
+		glockfs = new Sprite(new Texture("glockfrontshoot.png"));
+		glockls = new Sprite(new Texture("glockleftshoot.png"));
+		glockrs = new Sprite(new Texture("glockrightshoot.png"));
 		pickedup = 0;
-	
+		shooting=false;
+		time = -1;
 		
 	}
 	
@@ -42,18 +48,35 @@ public class glock extends Gun{
 		case 1:
 			if(facing == 0 ){
 				
+				if(animaçaoarma())
+				{
+					game.draw(glockfs,X+32,Y-20);
+				}
+					else
 				game.draw(glockf,X+32,Y-24);
 			}
 			else if(facing == 1 ){
-				
+				if(animaçaoarma())
+				{
+					game.draw(glockbs,X+10,Y+20);
+				}
+					else
 				game.draw(glockb,X+10,Y+15);
 			}
 			else if(facing == 2 ){
-				
+				if(animaçaoarma())
+				{
+					game.draw(glockls,X-10,Y);
+				}
+					else
 				game.draw(glockl,X-15,Y);
 			}
 			else if(facing == 3 ){
-				
+				if(animaçaoarma())
+				{
+					game.draw(glockrs,X+15,Y);
+				}
+					else
 				game.draw(glockr,X+15,Y);
 			}
 			break;
@@ -141,7 +164,34 @@ public class glock extends Gun{
 		// TODO Auto-generated method stub
 		return Y;
 	}
+	@Override
+	public void setshooting(Boolean bol) {
+		// TODO Auto-generated method stub
+		shooting = bol;
+	}
 	
+	public boolean animaçaoarma() {
+		// TODO Auto-generated method stub
+		if(time==-1){
+			if(Gdx.input.isKeyPressed(Input.Keys.SPACE))
+			{
+				time=System.nanoTime();
+				return true;
+
+			}
+		}
+		else{
+			if((System.nanoTime()-time/1000000)<500){
+				return true;
+			}
+			else {
+				time=-1;
+				return false;
+			}
+		}
+		return false;
+
+	}
 
 
 }

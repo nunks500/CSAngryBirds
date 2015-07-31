@@ -11,6 +11,7 @@ abstract public class Gun {
 	Sprite gun;
 	int pickedup;
 	Rectangle area;
+	Boolean shooting;
 	
 	abstract public void draw(SpriteBatch game,int facing);
 	abstract public int getX();
@@ -22,6 +23,8 @@ abstract public class Gun {
 	abstract public void setpickedup(int pickedup);
 	abstract public void setX(int X);
 	abstract public void setY(int Y);
+	abstract public void setshooting(Boolean bol);
+	abstract public boolean animaçaoarma();
 
 	
 }
