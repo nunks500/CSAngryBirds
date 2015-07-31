@@ -13,6 +13,7 @@ public class Player {
 	Sprite playerf,playerb,playerl,playerr;
 	int facing;
 	private Collision collision;
+	private Gun gun = null;
 	
 	Player(){
 		X=40;
@@ -31,15 +32,35 @@ public class Player {
 		updatefacing();
 		if(facing == 0 ){
 			batch.draw(playerf,X,Y);
+			if(gun != null){
+				gun.setX(X);
+				gun.setY(Y);
+				gun.draw(batch, facing);
+			}
 		}
 		else if(facing == 1 ){
 			batch.draw(playerb,X,Y);
+			if(gun != null){
+				gun.setX(X);
+				gun.setY(Y);
+				gun.draw(batch, facing);
+			}
 		}
 		else if(facing == 2 ){
 			batch.draw(playerl,X,Y);
+			if(gun != null){
+				gun.setX(X);
+				gun.setY(Y);
+				gun.draw(batch, facing);
+			}
 		}
 		else if(facing == 3 ){
 			batch.draw(playerr,X,Y);
+			if(gun != null){
+				gun.setX(X);
+				gun.setY(Y);
+				gun.draw(batch, facing);
+			}
 		}
 		
 	}
@@ -84,6 +105,14 @@ public class Player {
 	
 	public Sprite SpriteRight(){
 		return playerr;
+	}
+	
+	public void setGun(Gun gun){
+		this.gun=gun;
+	}
+	
+	public Gun getgun(){
+		return gun;
 	}
 	
 }

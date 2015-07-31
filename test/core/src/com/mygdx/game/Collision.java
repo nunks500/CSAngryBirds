@@ -63,6 +63,7 @@ public class Collision {
 		Rectangle character = new Rectangle((float)player.getX(),(float)player.getY(),player.SpriteRight().getWidth(),player.SpriteRight().getHeight());
 		if(guna.overlaps(character))
 			return i;
+		
 		}
 		
 			return 20;

@@ -35,13 +35,13 @@ public class m4a1 extends Gun{
 		switch(pickedup){
 		case 1:
 			if(facing == 0 ){
-				game.draw(m4a1f,X,Y);
+				game.draw(m4a1f,X-20,Y-40);
 			}
 			else if(facing == 1 ){
 				game.draw(m4a1b,X,Y);
 			}
 			else if(facing == 2 ){
-				game.draw(m4a1l,X,Y);
+				game.draw(m4a1l,X-60,Y);
 			}
 			else if(facing == 3 ){
 				game.draw(m4a1r,X,Y);

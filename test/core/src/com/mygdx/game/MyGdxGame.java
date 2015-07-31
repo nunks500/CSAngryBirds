@@ -132,10 +132,15 @@ public class MyGdxGame extends ApplicationAdapter implements  ActionListener{
 		 index2 = collision.pegou(guns); //index of gun -equals 20 if didnt found it
 		
 		 if(index2 != 20){
-			guns.get(index2).setpickedup(1);
-			guns.get(index2).setX(player1.getX());
-			guns.get(index2).setY(player1.getY());
+			 player1.setGun(guns.get(index2));
+			 player1.getgun().setpickedup(1);
+			guns.remove(index2);
+		
+			//guns.get(index2).setX(player1.getX());
+			//guns.get(index2).setY(player1.getY());
 		}
+		 
+		 
 		
 		
 	}

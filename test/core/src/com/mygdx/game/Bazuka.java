@@ -39,16 +39,16 @@ public class Bazuka extends Gun{
 		switch(pickedup){
 		case 1:
 			if(facing == 0 ){
-				game.draw(bazukaf,X,Y);
+				game.draw(bazukaf,X-10,Y-20);
 			}
 			else if(facing == 1 ){
-				game.draw(bazukab,X,Y);
+				game.draw(bazukab,X-10,Y-20);
 			}
 			else if(facing == 2 ){
 				game.draw(bazukal,X,Y);
 			}
 			else if(facing == 3 ){
-				game.draw(bazukar,X,Y);
+				game.draw(bazukar,X-55,Y);
 			}
 			break;
 		case 0:

@@ -13,7 +13,7 @@ public class ak47 extends Gun{
 	int Y = Gdx.graphics.getHeight();
 	int actualY=0;
 	int power;
-	Sprite ak47b,ak47f,ak47l,ak47r;
+	Sprite ak47b,ak47f,ak47l,ak47r,ak47r2;
 	int pickedup;
 	Rectangle area;
 
@@ -27,6 +27,7 @@ public class ak47 extends Gun{
 		ak47f = new Sprite(new Texture("ak47front.png"));
 		ak47l = new Sprite(new Texture("ak47left.png"));
 		ak47r = new Sprite(new Texture("ak47right.png"));
+	
 		pickedup = 0;
 	}
 	
@@ -37,13 +38,13 @@ public class ak47 extends Gun{
 		switch(pickedup){
 		case 1:
 			if(facing == 0 ){
-				game.draw(ak47f,X,Y);
+				game.draw(ak47f,X,Y-20);
 			}
 			else if(facing == 1 ){
 				game.draw(ak47b,X,Y);
 			}
 			else if(facing == 2 ){
-				game.draw(ak47l,X,Y);
+				game.draw(ak47l,X - 25,Y);
 			}
 			else if(facing == 3 ){
 				game.draw(ak47r,X,Y);

@@ -13,7 +13,7 @@ public class glock extends Gun{
 	int Y = Gdx.graphics.getHeight();
 	int actualY=0;
 	int power;
-	Sprite glockb,glockf,glockl,glockr;
+	Sprite glockb,glockf,glockl,glockr,glockr2;
 	int pickedup;
 	Rectangle area;
 	
@@ -28,6 +28,7 @@ public class glock extends Gun{
 		glockf = new Sprite(new Texture("glockfront.png"));
 		glockl = new Sprite(new Texture("glockleft.png"));
 		glockr = new Sprite(new Texture("glockright.png"));
+		glockr2 =  new Sprite(new Texture("glockright2.png"));
 		pickedup = 0;
 	
 		
@@ -41,23 +42,23 @@ public class glock extends Gun{
 		case 1:
 			if(facing == 0 ){
 				
-				game.draw(glockf,X,Y);
+				game.draw(glockf,X+32,Y-24);
 			}
 			else if(facing == 1 ){
 				
-				game.draw(glockb,X,Y);
+				game.draw(glockb,X+10,Y+15);
 			}
 			else if(facing == 2 ){
 				
-				game.draw(glockl,X,Y);
+				game.draw(glockl,X-15,Y);
 			}
 			else if(facing == 3 ){
 				
-				game.draw(glockr,X,Y);
+				game.draw(glockr,X+15,Y);
 			}
 			break;
 		case 0:
-			game.draw(glockr,X,Y);
+			game.draw(glockr2,X,Y);
 			
 			break;
 		}
