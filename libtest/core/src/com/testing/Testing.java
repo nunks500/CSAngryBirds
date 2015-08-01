@@ -16,11 +16,15 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g3d.utils.CameraInputController;
+import com.badlogic.gdx.input.GestureDetector;
+import com.badlogic.gdx.input.GestureDetector.GestureListener;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-public class Testing extends ApplicationAdapter{
+public class Testing extends ApplicationAdapter implements GestureDetector.GestureListener{
 
 	SpriteBatch batch,game;
 	Rectangle wall1,chara;
@@ -30,7 +34,7 @@ public class Testing extends ApplicationAdapter{
 	Viewport viewport;
 	final float gamewidth = 640;
 	final float gameheight = 480;
-	int CurrentOption=0,start=0,exit=70,porcoposinit=-50,index=0,nextone=0,index2=0,birdframes=0;
+	int CurrentOption=0,start=0,exit=70,porcoposinit=-50,index=0,nextone=0,index2=0,birdframes=0,androidenter=0;
 	long previoustime; //identifies where the user is(which option)
 	float time,porctime;
 	Animation bird;
@@ -40,6 +44,7 @@ public class Testing extends ApplicationAdapter{
 	Player player1;
 	private int[][] map = {{1,1,1,1,1,1,1,1,1,1,1,1,1,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,1,1,1,1,1,1,1,1,1,1,1,1,1}};
 	Collision collision,armaz;
+	GestureDetector gest;
 
 
 
@@ -73,6 +78,9 @@ public class Testing extends ApplicationAdapter{
 		previoustime=System.nanoTime();
 		time=System.nanoTime();
 		time=porctime;
+		 gest = new GestureDetector(this);
+		 Gdx.input.setInputProcessor(gest);
+		
 		
 
 
@@ -118,9 +126,9 @@ public class Testing extends ApplicationAdapter{
 
 		if(CurrentState.equals("Menu")){
 			menushower();
-			if(Gdx.input.isKeyPressed(Input.Keys.ENTER) && CurrentOption == exit)
+			if((Gdx.input.isKeyPressed(Input.Keys.ENTER)|| androidenter == 1) && CurrentOption == exit)
 				Gdx.app.exit();
-			else if(Gdx.input.isKeyPressed(Input.Keys.ENTER) && CurrentOption == start)
+			else if((Gdx.input.isKeyPressed(Input.Keys.ENTER) || androidenter == 1) && CurrentOption == start)
 			{
 				CurrentState = "Game";
 				cleansprites();
@@ -278,9 +286,9 @@ public class Testing extends ApplicationAdapter{
 		// TODO Auto-generated method stub
 		updatebird();
 		updateporc();
-		if((Gdx.input.isKeyPressed(Input.Keys.DOWN)|| Gdx.input.isTouched()) && CurrentOption != exit)
+		if(Gdx.input.isKeyPressed(Input.Keys.DOWN) && CurrentOption != exit)
 			CurrentOption=exit;
-		else if((Gdx.input.isKeyPressed(Input.Keys.UP)|| Gdx.input.isTouched()) && CurrentOption!=start)
+		else if(Gdx.input.isKeyPressed(Input.Keys.UP) && CurrentOption!=start)
 			CurrentOption=start;
 	
 			
@@ -313,6 +321,74 @@ public class Testing extends ApplicationAdapter{
 		if(game!=null)
 		game.dispose();
 
+	}
+	@Override
+	public boolean touchDown(float x, float y, int pointer, int button) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	@Override
+	public boolean tap(float x, float y, int count, int button) {
+		// TODO Auto-generated method stub
+		Vector2 newPoints = new Vector2(x,y);
+		newPoints = viewport.unproject(newPoints.set(x,y));
+		Rectangle tap = new Rectangle(newPoints.x,newPoints.y,1,1);
+		
+		
+		if(CurrentState.equals("Menu")){
+			if(CurrentOption == exit){
+				Rectangle exit = new Rectangle(20,270-CurrentOption,img2.getWidth() + 70,img2.getHeight());
+			
+				if(exit.overlaps(tap)){
+					System.out.println("x");
+					androidenter=1;
+				}
+				else
+				CurrentOption = start;
+			}
+			else
+			{
+				Rectangle start = new Rectangle(20,270-CurrentOption,img2.getWidth() + 70,img2.getHeight());
+				System.out.println(tap.getX() + "|" + tap.getY());
+				if(start.overlaps(tap)){
+					System.out.println("y");
+					androidenter=1;
+				}
+				else
+				CurrentOption = exit;
+			}
+		}
+		return false;
+	}
+	@Override
+	public boolean longPress(float x, float y) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	@Override
+	public boolean fling(float velocityX, float velocityY, int button) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	@Override
+	public boolean pan(float x, float y, float deltaX, float deltaY) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	@Override
+	public boolean panStop(float x, float y, int pointer, int button) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	@Override
+	public boolean zoom(float initialDistance, float distance) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	@Override
+	public boolean pinch(Vector2 initialPointer1, Vector2 initialPointer2, Vector2 pointer1, Vector2 pointer2) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 	
 
