@@ -1,7 +1,6 @@
 package com.testing;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -16,6 +15,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g3d.utils.CameraInputController;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -73,6 +73,8 @@ public class Testing extends ApplicationAdapter{
 		previoustime=System.nanoTime();
 		time=System.nanoTime();
 		time=porctime;
+		
+
 
 
 	}
@@ -276,11 +278,13 @@ public class Testing extends ApplicationAdapter{
 		// TODO Auto-generated method stub
 		updatebird();
 		updateporc();
-		if(Gdx.input.isKeyPressed(Input.Keys.DOWN) && CurrentOption != exit)
+		if((Gdx.input.isKeyPressed(Input.Keys.DOWN)|| Gdx.input.isTouched()) && CurrentOption != exit)
 			CurrentOption=exit;
-		else if(Gdx.input.isKeyPressed(Input.Keys.UP) && CurrentOption!=start)
+		else if((Gdx.input.isKeyPressed(Input.Keys.UP)|| Gdx.input.isTouched()) && CurrentOption!=start)
 			CurrentOption=start;
-
+	
+			
+		
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
 		batch.draw(img, 0, 0);
