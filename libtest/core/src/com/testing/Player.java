@@ -65,6 +65,7 @@ public class Player {
 		
 	}
 
+
 	private void updatefacing() {
 		// TODO Auto-generated method stub
 		if(Gdx.input.isKeyPressed(Input.Keys.DOWN)){
@@ -99,6 +100,15 @@ public class Player {
 		return Y;
 	}
 	
+	public void setX(int X)
+	{
+		this.X=X;
+	}
+	
+	public void setY(int Y)
+	{
+		this.Y=Y;
+	}
 	public int getfacing(){
 		return facing;
 	}
@@ -114,5 +124,42 @@ public class Player {
 	public Gun getgun(){
 		return gun;
 	}
+
+	public void updatefacingandroid(float deltaX, float deltaY) {
+		// TODO Auto-generated method stub
+		if(deltaX > 0 && deltaY<=2)
+		{
+			facing = 3;
+			if(!collision.detect(3))
+			X += 5;
+		}
+		else if (deltaX < 0 && deltaY<=2)
+			{
+			facing = 2;
+			if(!collision.detect(2))
+				X -= 5;
+			}
+
+		
+	else if (deltaY < 0 )
+			{
+			
+				facing = 1;
+				if(!collision.detect(1))
+				Y += 5;
+			}
+		
+			else if (deltaY > 0)
+			{
+			
+				facing = 0;
+				if(!collision.detect(0))
+				Y -= 5;
+			}
+
+		
+	}
+	
+	
 	
 }

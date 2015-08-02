@@ -17,7 +17,7 @@ public class m4a1 extends Gun{
 	Sprite m4a1b,m4a1f,m4a1l,m4a1r,m4a1ls,m4a1rs,m4a1fs,m4a1bs;
 	int pickedup;
 	Rectangle area;
-	Boolean shooting;
+	Boolean shooting,androidspace;
 	float time;
 	
 	m4a1(){
@@ -33,7 +33,7 @@ public class m4a1 extends Gun{
 		m4a1fs = new Sprite(new Texture("m4a1frontshoot.png"));
 		m4a1ls = new Sprite(new Texture("m4a1leftshoot.png"));
 		m4a1rs = new Sprite(new Texture("m4a1rightshoot.png"));
-		
+		androidspace = false;
 		pickedup = 0;
 		shooting = false;
 		time = -1;
@@ -86,8 +86,9 @@ public class m4a1 extends Gun{
 	public boolean animaçaoarma() {
 		// TODO Auto-generated method stub
 		if(time==-1){
-			if(Gdx.input.isKeyPressed(Input.Keys.SPACE))
+		if(Gdx.input.isKeyPressed(Input.Keys.SPACE) || androidspace)
 			{
+			
 				time=System.nanoTime();
 				return true;
 
@@ -98,12 +99,21 @@ public class m4a1 extends Gun{
 				return true;
 			}
 			else {
+				androidspace = false;
 				time=-1;
 				return false;
 			}
 		}
 		return false;
 
+	}
+	
+	public Boolean getandroidspace(){
+		return androidspace;
+	}
+	
+	public void setandroidspace(Boolean android){
+		androidspace = android;
 	}
 	private void update() {
 		// TODO Auto-generated method stub

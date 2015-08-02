@@ -17,7 +17,7 @@ public class ak47 extends Gun{
 	Sprite ak47b,ak47f,ak47l,ak47r,ak47r2,ak47bs,ak47fs,ak47ls,ak47rs;
 	int pickedup;
 	Rectangle area;
-	Boolean shooting;
+	Boolean shooting,androidspace;
 	float time;
 
 	
@@ -37,6 +37,7 @@ public class ak47 extends Gun{
 		shooting = false;
 		pickedup = 0;
 		time = -1;
+		androidspace=false;
 	}
 	
 
@@ -174,7 +175,7 @@ public class ak47 extends Gun{
 	public boolean animaçaoarma() {
 		// TODO Auto-generated method stub
 		if(time==-1){
-			if(Gdx.input.isKeyPressed(Input.Keys.SPACE))
+			if(Gdx.input.isKeyPressed(Input.Keys.SPACE) || androidspace)
 			{
 				time=System.nanoTime();
 				return true;
@@ -186,12 +187,21 @@ public class ak47 extends Gun{
 				return true;
 			}
 			else {
+				androidspace = false;
 				time=-1;
 				return false;
 			}
 		}
 		return false;
 
+	}
+	
+	public Boolean getandroidspace(){
+		return androidspace;
+	}
+	
+	public void setandroidspace(Boolean android){
+		androidspace = android;
 	}
 
 

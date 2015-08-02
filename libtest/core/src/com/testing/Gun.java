@@ -11,7 +11,7 @@ abstract public class Gun {
 	Sprite gun;
 	int pickedup;
 	Rectangle area;
-	Boolean shooting;
+	Boolean shooting,androidspace;
 	
 	abstract public void draw(SpriteBatch game,int facing);
 	abstract public int getX();
@@ -25,6 +25,8 @@ abstract public class Gun {
 	abstract public void setY(int Y);
 	abstract public void setshooting(Boolean bol);
 	abstract public boolean animaçaoarma();
+	abstract public void setandroidspace(Boolean android);
+	abstract public Boolean getandroidspace();
 
 	
 }

@@ -17,7 +17,7 @@ public class glock extends Gun{
 	Sprite glockb,glockf,glockl,glockr,glockr2,glockbs,glockfs,glockls,glockrs;
 	int pickedup;
 	Rectangle area;
-	Boolean shooting;
+	Boolean shooting,androidspace;
 	float time;
 	
 	glock(){
@@ -37,6 +37,7 @@ public class glock extends Gun{
 		pickedup = 0;
 		shooting=false;
 		time = -1;
+		androidspace = false;
 		
 	}
 	
@@ -173,7 +174,7 @@ public class glock extends Gun{
 	public boolean animaçaoarma() {
 		// TODO Auto-generated method stub
 		if(time==-1){
-			if(Gdx.input.isKeyPressed(Input.Keys.SPACE))
+			if(Gdx.input.isKeyPressed(Input.Keys.SPACE) || androidspace)
 			{
 				time=System.nanoTime();
 				return true;
@@ -185,12 +186,21 @@ public class glock extends Gun{
 				return true;
 			}
 			else {
+				androidspace = false;
 				time=-1;
 				return false;
 			}
 		}
 		return false;
 
+	}
+	
+	public Boolean getandroidspace(){
+		return androidspace;
+	}
+	
+	public void setandroidspace(Boolean android){
+		androidspace = android;
 	}
 
 

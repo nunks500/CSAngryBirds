@@ -36,7 +36,7 @@ public class Testing extends ApplicationAdapter implements GestureDetector.Gestu
 	final float gameheight = 480;
 	int CurrentOption=0,start=0,exit=70,porcoposinit=-50,index=0,nextone=0,index2=0,birdframes=0,androidenter=0;
 	long previoustime; //identifies where the user is(which option)
-	float time,porctime;
+	float time,porctime,testx,testy;
 	Animation bird;
 	private ArrayList<Sprite> animat = new ArrayList<Sprite>();
 	private ArrayList<Wall> paredes = new ArrayList<Wall>();
@@ -45,6 +45,7 @@ public class Testing extends ApplicationAdapter implements GestureDetector.Gestu
 	private int[][] map = {{1,1,1,1,1,1,1,1,1,1,1,1,1,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,1,1,1,1,1,1,1,1,1,1,1,1,1}};
 	Collision collision,armaz;
 	GestureDetector gest;
+	
 
 
 
@@ -74,7 +75,6 @@ public class Testing extends ApplicationAdapter implements GestureDetector.Gestu
 		bird = new Animation(1/ 3f,new TextureRegion(new Texture("ini1.png")),new TextureRegion(new Texture("ini2.png")));
 		//camera = new OrthographicCamera(1680,1200);
 		//this.camera.position.set(1680/2, 1200/2, 0f); Outro modo
-		
 		previoustime=System.nanoTime();
 		time=System.nanoTime();
 		time=porctime;
@@ -182,58 +182,59 @@ public class Testing extends ApplicationAdapter implements GestureDetector.Gestu
 		// TODO Auto-generated method stub
 		int temp;
 		Random random2 = new Random();
-		temp =  random2.nextInt(700);
+		temp =  random2.nextInt(500);
 		if(temp == 150 &&  guns.size() < 5){
 			Random tipoarma = new Random();
 			int arma = tipoarma.nextInt(10);
 			if(arma <= 5){
 				Boolean check = false;
 				glock glock = null;
-				System.out.println("Entrei");
 				while(check == false){
 				glock= new glock();
 				Collision armaz = new Collision(paredes);
-				if(!armaz.overlapping(glock))//Checking collision of the gun with the walls
+				if(!armaz.overlapping(glock) && glock.getX() < (map.length*46)-23)//Checking collision of the gun with the walls and keeps them inside map
 				check=true;
+				
 				}
 				guns.add(glock);
 				
 			}
+			
 			else if(arma == 6 || arma == 7){
 				Boolean check = false;
 				m4a1 m4a1 = null;
-				System.out.println("Entrei");
 				while(check == false){
 				m4a1= new m4a1();
 				Collision armaz = new Collision(paredes);
-				if(!armaz.overlapping(m4a1))//Checking collision of the gun with the walls
+				if(!armaz.overlapping(m4a1) && m4a1.getX() < (map.length*46)-23)//Checking collision of the gun with the walls
 				check=true;
 				}
 				guns.add(m4a1);
 				
 			}
+			
 			else if(arma == 8){
 				Boolean check = false;
 				ak47 ak = null;
-				System.out.println("Entrei");
 				while(check == false){
 				ak= new ak47();
 				Collision armaz = new Collision(paredes);
-				if(!armaz.overlapping(ak))//Checking collision of the gun with the walls
+				if(!armaz.overlapping(ak) && ak.getX() < (map.length*46)-23 )//Checking collision of the gun with the walls
 				check=true;
 				}
 				guns.add(ak);
 			}
+			
 			else if(arma == 9){
 				Boolean check = false;
 				Bazuka bazuka = null;
-				System.out.println("Entrei");
 				while(check == false){
 				bazuka= new Bazuka();
 				Collision armaz = new Collision(paredes);
-				if(!armaz.overlapping(bazuka))//Checking collision of the gun with the walls
+				if(!armaz.overlapping(bazuka) && bazuka.getX() < (map.length*46)-23)//Checking collision of the gun with the walls
 				check=true;
 				}
+		
 				guns.add(bazuka);
 			}
 			
@@ -278,8 +279,7 @@ public class Testing extends ApplicationAdapter implements GestureDetector.Gestu
 		exp2.getTexture().dispose();
 		exp3.getTexture().dispose();
 		porco2.getTexture().dispose();
-
-
+		
 
 	}
 	private void menushower() {
@@ -320,7 +320,15 @@ public class Testing extends ApplicationAdapter implements GestureDetector.Gestu
 		batch.dispose();
 		if(game!=null)
 		game.dispose();
-
+		player1 = null;
+		paredes.clear();
+		guns.clear();
+		animat.clear();
+		collision = null;
+		gest.reset();
+		camera = null;
+		bird = null;
+		armaz = null;
 	}
 	@Override
 	public boolean touchDown(float x, float y, int pointer, int button) {
@@ -332,6 +340,8 @@ public class Testing extends ApplicationAdapter implements GestureDetector.Gestu
 		// TODO Auto-generated method stub
 		Vector2 newPoints = new Vector2(x,y);
 		newPoints = viewport.unproject(newPoints.set(x,y));
+		testx = newPoints.x;
+		testy = newPoints.y;
 		Rectangle tap = new Rectangle(newPoints.x,newPoints.y,1,1);
 		
 		
@@ -340,7 +350,6 @@ public class Testing extends ApplicationAdapter implements GestureDetector.Gestu
 				Rectangle exit = new Rectangle(20,270-CurrentOption,img2.getWidth() + 70,img2.getHeight());
 			
 				if(exit.overlaps(tap)){
-					System.out.println("x");
 					androidenter=1;
 				}
 				else
@@ -349,20 +358,23 @@ public class Testing extends ApplicationAdapter implements GestureDetector.Gestu
 			else
 			{
 				Rectangle start = new Rectangle(20,270-CurrentOption,img2.getWidth() + 70,img2.getHeight());
-				System.out.println(tap.getX() + "|" + tap.getY());
 				if(start.overlaps(tap)){
-					System.out.println("y");
 					androidenter=1;
 				}
 				else
 				CurrentOption = exit;
 			}
 		}
+		else if(CurrentState.equals("Game")){
+			if(player1.getgun() != null)
+			player1.getgun().setandroidspace(true);
+		}
 		return false;
 	}
 	@Override
 	public boolean longPress(float x, float y) {
 		// TODO Auto-generated method stub
+		
 		return false;
 	}
 	@Override
@@ -372,7 +384,7 @@ public class Testing extends ApplicationAdapter implements GestureDetector.Gestu
 	}
 	@Override
 	public boolean pan(float x, float y, float deltaX, float deltaY) {
-		// TODO Auto-generated method stub
+			player1.updatefacingandroid(deltaX,deltaY);
 		return false;
 	}
 	@Override

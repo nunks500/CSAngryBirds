@@ -18,7 +18,7 @@ public class Bazuka extends Gun{
 	int pickedup;
 	Rectangle area;
 	Boolean notdone = true;
-	Boolean shooting;
+	Boolean shooting,androidspace;
 	float time;
 
 	
@@ -34,6 +34,7 @@ public class Bazuka extends Gun{
 		pickedup = 0;
 		shooting =false;
 		time = -1;
+		androidspace=false;
 	}
 	
 
@@ -144,7 +145,7 @@ public class Bazuka extends Gun{
 	public boolean animaçaoarma() {
 		// TODO Auto-generated method stub
 		if(time==-1){
-			if(Gdx.input.isKeyPressed(Input.Keys.SPACE))
+			if(Gdx.input.isKeyPressed(Input.Keys.SPACE) || androidspace)
 			{
 				time=System.nanoTime();
 				return true;
@@ -156,12 +157,20 @@ public class Bazuka extends Gun{
 				return true;
 			}
 			else {
+				androidspace = false;
 				time=-1;
 				return false;
 			}
 		}
 		return false;
 
+	}
+	public Boolean getandroidspace(){
+		return androidspace;
+	}
+	
+	public void setandroidspace(Boolean android){
+		androidspace = android;
 	}
 
 }
