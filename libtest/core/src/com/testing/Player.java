@@ -127,21 +127,23 @@ public class Player {
 
 	public void updatefacingandroid(float deltaX, float deltaY) {
 		// TODO Auto-generated method stub
-		if(deltaX > 0 && deltaY<=2)
+		if(Math.abs(deltaX) + 2 > Math.abs(deltaY)){
+		if(deltaX > 0 )
 		{
 			facing = 3;
 			if(!collision.detect(3))
 			X += 5;
 		}
-		else if (deltaX < 0 && deltaY<=2)
+		else if (deltaX < 0)
 			{
 			facing = 2;
 			if(!collision.detect(2))
 				X -= 5;
 			}
 
-		
-	else if (deltaY < 0 )
+		}
+		else{
+	 if (deltaY < 0 )
 			{
 			
 				facing = 1;
@@ -157,7 +159,7 @@ public class Player {
 				Y -= 5;
 			}
 
-		
+		}
 	}
 	
 	
