@@ -1,5 +1,7 @@
 package com.testing;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
@@ -24,9 +26,10 @@ abstract public class Gun {
 	abstract public void setX(int X);
 	abstract public void setY(int Y);
 	abstract public void setshooting(Boolean bol);
-	abstract public boolean animaçaoarma();
+	abstract public boolean animaçaoarma(int facing);
 	abstract public void setandroidspace(Boolean android);
 	abstract public Boolean getandroidspace();
+	abstract public ArrayList<Bullet> getbullets();
 
 	
 }

@@ -1,5 +1,6 @@
 package com.testing;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
@@ -20,7 +21,7 @@ public class Bazuka extends Gun{
 	Boolean notdone = true;
 	Boolean shooting,androidspace;
 	float time;
-
+	ArrayList<Bullet> bullets = new ArrayList<Bullet>();
 	
 	Bazuka(){
 		Random y = new Random();
@@ -42,6 +43,7 @@ public class Bazuka extends Gun{
 	public void draw(SpriteBatch game,int facing){
 		
 		update();
+		shoot(facing);
 		switch(pickedup){
 		case 1:
 			if(facing == 0 ){
@@ -62,6 +64,18 @@ public class Bazuka extends Gun{
 		}
 		
 	}
+
+	private void shoot(int facing) {
+		// TODO Auto-generated method stub
+		if(Gdx.input.isKeyPressed(Input.Keys.SPACE) || androidspace)
+		{	
+			Bullet bullet = new Bullet(X,Y,this,facing);
+			bullets.add(bullet);
+			androidspace = false;
+		}
+	}
+
+
 
 	private void update() {
 		// TODO Auto-generated method stub
@@ -142,12 +156,15 @@ public class Bazuka extends Gun{
 		// TODO Auto-generated method stub
 		shooting = bol;
 	}
-	public boolean animaçaoarma() {
+	public boolean animaçaoarma(int facing) {
 		// TODO Auto-generated method stub
 		if(time==-1){
 			if(Gdx.input.isKeyPressed(Input.Keys.SPACE) || androidspace)
 			{
+				
 				time=System.nanoTime();
+				Bullet bullet = new Bullet(X,Y,this,facing);
+				bullets.add(bullet);
 				return true;
 
 			}
@@ -173,4 +190,8 @@ public class Bazuka extends Gun{
 		androidspace = android;
 	}
 
+	public ArrayList<Bullet> getbullets(){
+		return bullets;
+	}
+	
 }

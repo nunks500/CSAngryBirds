@@ -1,5 +1,6 @@
 package com.testing;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
@@ -19,6 +20,7 @@ public class glock extends Gun{
 	Rectangle area;
 	Boolean shooting,androidspace;
 	float time;
+	ArrayList<Bullet> bullets = new ArrayList<Bullet>();
 	
 	glock(){
 		Random y = new Random();
@@ -49,7 +51,7 @@ public class glock extends Gun{
 		case 1:
 			if(facing == 0 ){
 				
-				if(animaçaoarma())
+				if(animaçaoarma(facing))
 				{
 					game.draw(glockfs,X+32,Y-20);
 				}
@@ -57,7 +59,7 @@ public class glock extends Gun{
 				game.draw(glockf,X+32,Y-24);
 			}
 			else if(facing == 1 ){
-				if(animaçaoarma())
+				if(animaçaoarma(facing))
 				{
 					game.draw(glockbs,X+10,Y+20);
 				}
@@ -65,7 +67,7 @@ public class glock extends Gun{
 				game.draw(glockb,X+10,Y+15);
 			}
 			else if(facing == 2 ){
-				if(animaçaoarma())
+				if(animaçaoarma(facing))
 				{
 					game.draw(glockls,X-10,Y);
 				}
@@ -73,7 +75,7 @@ public class glock extends Gun{
 				game.draw(glockl,X-15,Y);
 			}
 			else if(facing == 3 ){
-				if(animaçaoarma())
+				if(animaçaoarma(facing))
 				{
 					game.draw(glockrs,X+15,Y);
 				}
@@ -171,12 +173,29 @@ public class glock extends Gun{
 		shooting = bol;
 	}
 	
-	public boolean animaçaoarma() {
+	public boolean animaçaoarma(int facing) {
 		// TODO Auto-generated method stub
 		if(time==-1){
 			if(Gdx.input.isKeyPressed(Input.Keys.SPACE) || androidspace)
 			{
 				time=System.nanoTime();
+				if(facing == 0){
+				Bullet bullet = new Bullet(X + 40,Y,this,facing);
+				bullets.add(bullet);
+				}
+				else if(facing == 1){
+					Bullet bullet = new Bullet(X+25,Y,this,facing);
+					bullets.add(bullet);
+					} 
+				else if(facing == 2){
+					Bullet bullet = new Bullet(X,Y + 20,this,facing);
+					bullets.add(bullet);
+					} 
+				else if(facing == 3){
+					Bullet bullet = new Bullet(X + 10,Y + 20,this,facing);
+					bullets.add(bullet);
+					} 
+				androidspace=false;
 				return true;
 
 			}
@@ -203,5 +222,8 @@ public class glock extends Gun{
 		androidspace = android;
 	}
 
+	public ArrayList<Bullet> getbullets(){
+		return bullets;
+	}
 
 }

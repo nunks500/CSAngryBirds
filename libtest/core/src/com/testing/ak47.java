@@ -1,5 +1,6 @@
 package com.testing;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
@@ -19,6 +20,7 @@ public class ak47 extends Gun{
 	Rectangle area;
 	Boolean shooting,androidspace;
 	float time;
+	ArrayList<Bullet> bullets = new ArrayList<Bullet>();
 
 	
 	ak47(){
@@ -47,7 +49,7 @@ public class ak47 extends Gun{
 		switch(pickedup){
 		case 1:
 			if(facing == 0 ){
-				if(animaçaoarma())
+				if(animaçaoarma(facing))
 				{
 					game.draw(ak47fs,X,Y-15);
 				}
@@ -55,7 +57,7 @@ public class ak47 extends Gun{
 				game.draw(ak47f,X,Y-20);
 			}
 			else if(facing == 1 ){
-				if(animaçaoarma())
+				if(animaçaoarma(facing))
 				{
 					game.draw(ak47bs,X,Y + 5);
 				}
@@ -63,7 +65,7 @@ public class ak47 extends Gun{
 				game.draw(ak47b,X,Y);
 			}
 			else if(facing == 2 ){
-				if(animaçaoarma())
+				if(animaçaoarma(facing))
 				{
 					game.draw(ak47ls,X - 25,Y);
 				}
@@ -71,7 +73,7 @@ public class ak47 extends Gun{
 				game.draw(ak47l,X - 25,Y);
 			}
 			else if(facing == 3 ){
-				if(animaçaoarma())
+				if(animaçaoarma(facing))
 				{
 					game.draw(ak47rs,X,Y);
 				}
@@ -172,12 +174,29 @@ public class ak47 extends Gun{
 		shooting = bol;
 	}
 	
-	public boolean animaçaoarma() {
+	public boolean animaçaoarma(int facing) {
 		// TODO Auto-generated method stub
 		if(time==-1){
 			if(Gdx.input.isKeyPressed(Input.Keys.SPACE) || androidspace)
 			{
 				time=System.nanoTime();
+				if(facing == 0){
+				Bullet bullet = new Bullet(X,Y,this,facing);
+				bullets.add(bullet);
+				}
+				else if(facing == 1){
+					Bullet bullet = new Bullet(X + 10,Y,this,facing);
+					bullets.add(bullet);
+					}
+				else if(facing == 2){
+					Bullet bullet = new Bullet(X - 20,Y + 20,this,facing);
+					bullets.add(bullet);
+					}
+				else if(facing == 3){
+					Bullet bullet = new Bullet(X + 20,Y + 20,this,facing);
+					bullets.add(bullet);
+					}
+				
 				return true;
 
 			}
@@ -202,6 +221,10 @@ public class ak47 extends Gun{
 	
 	public void setandroidspace(Boolean android){
 		androidspace = android;
+	}
+	
+	public ArrayList<Bullet> getbullets(){
+		return bullets;
 	}
 
 

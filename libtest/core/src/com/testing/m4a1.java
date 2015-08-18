@@ -1,5 +1,6 @@
 package com.testing;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
@@ -19,6 +20,7 @@ public class m4a1 extends Gun{
 	Rectangle area;
 	Boolean shooting,androidspace;
 	float time;
+	ArrayList<Bullet> bullets = new ArrayList<Bullet>();
 	
 	m4a1(){
 		Random y = new Random();
@@ -45,7 +47,7 @@ public class m4a1 extends Gun{
 		switch(pickedup){
 		case 1:
 			if(facing == 0){
-				if(animaçaoarma())
+				if(animaçaoarma(facing))
 				{
 					game.draw(m4a1fs,X-20,Y-35);
 				}
@@ -53,7 +55,7 @@ public class m4a1 extends Gun{
 				game.draw(m4a1f,X-20,Y-40);
 			}
 			else if(facing == 1 ){
-				if(animaçaoarma())
+				if(animaçaoarma(facing))
 				{
 					game.draw(m4a1bs,X,Y-5);
 				}
@@ -61,7 +63,7 @@ public class m4a1 extends Gun{
 				game.draw(m4a1b,X,Y);
 			}
 			else if(facing == 2 ){
-				if(animaçaoarma())
+				if(animaçaoarma(facing))
 				{
 					game.draw(m4a1ls,X-60,Y);
 				}
@@ -69,7 +71,7 @@ public class m4a1 extends Gun{
 				game.draw(m4a1l,X-60,Y);
 			}
 			else if(facing == 3 ){
-				if(animaçaoarma())
+				if(animaçaoarma(facing))
 				{
 					game.draw(m4a1rs,X,Y);
 				}
@@ -83,13 +85,29 @@ public class m4a1 extends Gun{
 		
 	}
 	
-	public boolean animaçaoarma() {
+	public boolean animaçaoarma(int facing) {
 		// TODO Auto-generated method stub
 		if(time==-1){
 		if(Gdx.input.isKeyPressed(Input.Keys.SPACE) || androidspace)
-			{
-			
+			{ 
 				time=System.nanoTime();
+				if(facing == 0){
+				Bullet bullet = new Bullet(X,Y,this,facing);
+				bullets.add(bullet);
+				}
+				else if(facing == 1){
+					Bullet bullet = new Bullet(X + 10,Y + 20,this,facing);
+					bullets.add(bullet);
+					}
+				else if(facing == 2){
+					Bullet bullet = new Bullet(X - 20,Y + 20,this,facing);
+					bullets.add(bullet);
+					}
+				else if(facing == 3){
+					Bullet bullet = new Bullet(X + 20,Y + 20,this,facing);
+					bullets.add(bullet);
+					}
+				
 				return true;
 
 			}
@@ -179,6 +197,10 @@ public class m4a1 extends Gun{
 	public void setshooting(Boolean bol) {
 		// TODO Auto-generated method stub
 		shooting = bol;
+	}
+	
+	public ArrayList<Bullet> getbullets(){
+		return bullets;
 	}
 
 }

@@ -147,12 +147,38 @@ public class Testing extends ApplicationAdapter implements GestureDetector.Gestu
 			generateguns();
 			drawguns(game,guns,player1);
 			equipped(game,guns,player1);
+			dead(game,guns);
+			drawbullets(game,guns,player1);
 			game.end();
 		}
 
 	}
 
 
+	private void dead(SpriteBatch game2, ArrayList<Gun> guns2) {
+		// TODO Auto-generated method stub
+		Collision collision = new Collision(paredes);
+		if(player1.getgun()!=null){
+			for(int i=0;i<player1.getgun().getbullets().size();i++){
+				
+				if(collision.shoots(player1.getgun().getbullets().get(i),player1.getgun())){
+					player1.getgun().getbullets().remove(i);
+				}
+			}
+		}
+	}
+	private void drawbullets(SpriteBatch game, ArrayList<Gun> guns, Player player) {
+		// TODO Auto-generated method stub~
+		
+		if(player1.getgun()!=null){
+			for(int i=0;i<player1.getgun().getbullets().size();i++){
+				player1.getgun().getbullets().get(i).update();
+				player1.getgun().getbullets().get(i).draw(game);
+			}
+		}
+		
+		
+	}
 	private void equipped(SpriteBatch game2, ArrayList<Gun> guns, Player player1) {
 		// TODO Auto-generated method stub
 		Collision collision = new Collision(paredes,player1);

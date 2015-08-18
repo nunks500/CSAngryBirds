@@ -2,6 +2,7 @@ package com.testing;
 
 import java.util.ArrayList;
 
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Rectangle;
 
 public class Collision {
@@ -66,6 +67,18 @@ public class Collision {
 		}
 		
 			return 20;
+	}
+	
+	public Boolean shoots(Bullet bullet,Gun gun){
+		Sprite temp = bullet.corresponding(gun);
+		Rectangle bulet = new Rectangle((float) bullet.getX(),(float) bullet.getY(),temp.getWidth(),temp.getHeight());
+		for(int i=0;i<paredes.size();i++){
+			Rectangle wall1 = new Rectangle(paredes.get(i).getX(),paredes.get(i).getY(),paredes.get(i).getsprite().getWidth(),paredes.get(i).getsprite().getHeight()-5);
+			if(bulet.overlaps(wall1))
+				return true;
+		}
+		
+		 return false;
 	}
 	
 		
