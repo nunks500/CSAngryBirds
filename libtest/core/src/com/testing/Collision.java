@@ -81,5 +81,17 @@ public class Collision {
 		 return false;
 	}
 	
+	public Boolean enemywall(Enemy enemy){
+		Sprite temp = enemy.getSprite();
+		Rectangle enemi = new Rectangle((float) enemy.getX(),(float) enemy.getY(),temp.getWidth(),temp.getHeight());
+		for(int i=0;i<paredes.size();i++){
+			Rectangle wall1 = new Rectangle(paredes.get(i).getX(),paredes.get(i).getY(),paredes.get(i).getsprite().getWidth(),paredes.get(i).getsprite().getHeight()-5);
+			if(enemi.overlaps(wall1))
+				return true;
+		}
+		
+		 return false;
+	}
+	
 		
 }

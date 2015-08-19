@@ -41,6 +41,7 @@ public class Testing extends ApplicationAdapter implements GestureDetector.Gestu
 	private ArrayList<Sprite> animat = new ArrayList<Sprite>();
 	private ArrayList<Wall> paredes = new ArrayList<Wall>();
 	private ArrayList<Gun> guns = new ArrayList<Gun>();
+	private ArrayList<Enemy> enemies = new ArrayList<Enemy>();
 	Player player1;
 	private int[][] map = {{1,1,1,1,1,1,1,1,1,1,1,1,1,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,1,1,1,1,1,1,1,1,1,1,1,1,1}};
 	Collision collision,armaz;
@@ -149,12 +150,29 @@ public class Testing extends ApplicationAdapter implements GestureDetector.Gestu
 			equipped(game,guns,player1);
 			dead(game,guns);
 			drawbullets(game,guns,player1);
+			generateenemies(map);
+			drawenemies(game);
 			game.end();
 		}
 
 	}
 
 
+	private void drawenemies(SpriteBatch batch) {
+		// TODO Auto-generated method stub
+		for(int i=0;i<enemies.size();i++)
+			enemies.get(i).draw(batch);
+		
+	}
+	private void generateenemies(int[][] map) {
+		// TODO Auto-generated method stub
+		Random y = new Random();
+		int k = y.nextInt(100);
+		if(k == 7){
+		Enemy enemy = new Enemy(map,paredes);
+		enemies.add(enemy);
+		}
+	}
 	private void dead(SpriteBatch game2, ArrayList<Gun> guns2) {
 		// TODO Auto-generated method stub
 		Collision collision = new Collision(paredes);
