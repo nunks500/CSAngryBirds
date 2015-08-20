@@ -116,5 +116,16 @@ public class Collision {
 			return false;
 	}
 	
+	public Boolean hite(Bullet bullet, Enemy enemy,Gun gun){
+		Sprite temp = bullet.corresponding(gun);
+		Rectangle bulet = new Rectangle((float) bullet.getX(),(float) bullet.getY(),temp.getWidth(),temp.getHeight());
+		Sprite temp2 = enemy.getSprite();
+		Rectangle enemi = new Rectangle((float) enemy.getX(),(float) enemy.getY(),temp2.getWidth(),temp2.getHeight());
+		if(bulet.overlaps(enemi))
+			return true;
+		else return false;
+		
+		
+	}
 		
 }

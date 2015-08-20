@@ -8,6 +8,7 @@ import java.util.Random;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -16,8 +17,11 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g3d.utils.CameraInputController;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.input.GestureDetector.GestureListener;
+import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -28,7 +32,7 @@ public class Testing extends ApplicationAdapter implements GestureDetector.Gestu
 
 	SpriteBatch batch,game;
 	Rectangle wall1,chara;
-	Sprite img,img2,porco,pigshoot,exp10,exp1,exp2,exp3,porco2,tl,ml,bl;
+	Sprite img,img2,porco,pigshoot,exp10,exp1,exp2,exp3,porco2,tl,ml,bl,hp,hp1,hp2,hp3,hp4;
 	String CurrentState;
 	OrthographicCamera camera;
 	Viewport viewport;
@@ -66,6 +70,11 @@ public class Testing extends ApplicationAdapter implements GestureDetector.Gestu
 		exp3=new Sprite(new Texture("exp3.png"));
 		pigshoot = new Sprite(new Texture("piece.png"));
 		porco2 = new Sprite(new Texture("backporco.png"));
+		hp = new Sprite(new Texture("hp.png"));
+		hp1 = new Sprite(new Texture("hp1.png"));
+		hp2 = new Sprite(new Texture("hp2.png"));
+		hp3 = new Sprite(new Texture("hp3.png"));
+		hp4 = new Sprite(new Texture("hp4.png"));
 		animat.add(exp10);
 		animat.add(exp1);
 		animat.add(exp2);
@@ -149,11 +158,13 @@ public class Testing extends ApplicationAdapter implements GestureDetector.Gestu
 			player1.draw(game);
 			mapdraw(game);
 			generateguns();
+			drawHealthbar(game);
 			drawguns(game,guns,player1);
 			equipped(game,guns,player1);
 			dead(game,guns);
 			drawbullets(game,guns,player1);
 			generateenemies(map);
+			hekilled();
 			moveenemies();
 			shootingene();
 			drawenemies(game);
@@ -163,6 +174,42 @@ public class Testing extends ApplicationAdapter implements GestureDetector.Gestu
 	}
 
 
+	private void drawHealthbar(SpriteBatch game) {
+		System.out.println(player1.getHealth());
+		if(player1.getHealth() == 1000)
+	game.draw(hp,0,Gdx.graphics.getHeight()- hp.getHeight());
+		else if(player1.getHealth() > 700)
+			game.draw(hp1,0,Gdx.graphics.getHeight()- hp1.getHeight());
+		else if(player1.getHealth() > 500)
+			game.draw(hp2,0,Gdx.graphics.getHeight()- hp2.getHeight());
+		else if(player1.getHealth() > 250)
+			game.draw(hp3,0,Gdx.graphics.getHeight()- hp3.getHeight());
+		else
+			game.draw(hp4,0,Gdx.graphics.getHeight()- hp4.getHeight());
+
+
+	}
+	private void hekilled() {
+		// TODO Auto-generated method stub
+		Collision col = new Collision(paredes);
+		if(player1.getgun()!=null){
+		for(int i=0;i<player1.getgun().getbullets().size();i++){
+			for(int j=0;j<enemies.size();j++){
+				if(player1.getgun().getbullets().size()!=0 && enemies.size()!=0){
+				if(col.hite(player1.getgun().getbullets().get(i),enemies.get(j),player1.getgun())){
+					enemies.remove(j);
+					player1.getgun().getbullets().remove(i);
+					if(j>0)
+					j--;
+					if(i>0)
+					i--;
+				}
+				}
+				
+			}
+		}
+		}
+	}
 	private void shootingene() {
 		// TODO Auto-generated method stub
 			if(((System.nanoTime()-timeforshoot)/1000000)>2000){
@@ -242,6 +289,8 @@ public class Testing extends ApplicationAdapter implements GestureDetector.Gestu
 			{
 				ebullets.remove(j);
 				player1.setHealth(player1.getHealth() - 70);
+				if(player1.getHealth() < 0)
+					CurrentState = "Game Over";		
 			}
 			else
 			ebullets.get(j).update();
@@ -270,6 +319,8 @@ public class Testing extends ApplicationAdapter implements GestureDetector.Gestu
 				}
 			}
 		}
+		
+		
 	}
 	private void drawbullets(SpriteBatch game, ArrayList<Gun> guns, Player player) {
 		// TODO Auto-generated method stub~
