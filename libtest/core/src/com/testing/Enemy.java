@@ -21,6 +21,7 @@ public class Enemy extends Entity{
 			Health = 100;
 			tipo = 1; 
 		}
+		
 		else if (tipoz == 6 || tipoz == 7){
 			Health = 500;
 			tipo = 2;
@@ -33,6 +34,7 @@ public class Enemy extends Entity{
 			Health = 1500;
 			tipo= 4;
 		}
+		
 		facing = 3;
 		t1r = new Sprite(new Texture("t1r.png"));
 		t1l = new Sprite(new Texture("t1l.png"));
@@ -84,6 +86,21 @@ public class Enemy extends Entity{
 	
 	public int getY(){
 		return Y;
+	}
+	
+	public void setX(int x){
+		X=x;
+	}
+	
+	public void setY(int y){
+		Y=y;
+	}
+	public void setface(int facing){
+		this.facing = facing;
+	}
+	
+	public int getface(){
+		return facing;
 	}
 
 }

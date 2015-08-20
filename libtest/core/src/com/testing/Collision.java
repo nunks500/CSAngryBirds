@@ -93,5 +93,28 @@ public class Collision {
 		 return false;
 	}
 	
+	public Boolean hit(Bullet bullet,Player player,Gun gun){
+		Sprite temp = bullet.corresponding(gun);
+		Rectangle bulet = new Rectangle((float) bullet.getX(),(float) bullet.getY(),temp.getWidth(),temp.getHeight());
+		int id = player.getfacing();
+		if(id==0){
+			 chara = new Rectangle(player.getX(),player.getY()-5,51,46);
+			}
+			else if(id==1){
+			 chara = new Rectangle(player.getX(),player.getY() + 5,51,46);
+			}
+			else if(id==2){
+				chara = new Rectangle(player.getX() - 5,player.getY(),51,46);
+				}
+			else if(id==3){
+				 chara = new Rectangle(player.getX() + 5,player.getY(),51,46);
+				}
+		
+		if(chara.overlaps(bulet))
+			return true;
+		else
+			return false;
+	}
+	
 		
 }

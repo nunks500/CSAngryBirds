@@ -36,12 +36,14 @@ public class Testing extends ApplicationAdapter implements GestureDetector.Gestu
 	final float gameheight = 480;
 	int CurrentOption=0,start=0,exit=70,porcoposinit=-50,index=0,nextone=0,index2=0,birdframes=0,androidenter=0;
 	long previoustime; //identifies where the user is(which option)
-	float time,porctime,testx,testy;
+	float time,porctime,testx,testy,timeforshoot=0;
 	Animation bird;
 	private ArrayList<Sprite> animat = new ArrayList<Sprite>();
 	private ArrayList<Wall> paredes = new ArrayList<Wall>();
 	private ArrayList<Gun> guns = new ArrayList<Gun>();
 	private ArrayList<Enemy> enemies = new ArrayList<Enemy>();
+	private ArrayList<Bullet> ebullets = new ArrayList<Bullet>();
+	
 	Player player1;
 	private int[][] map = {{1,1,1,1,1,1,1,1,1,1,1,1,1,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,1,1,1,1,1,1,1,1,1,1,1,1,1}};
 	Collision collision,armaz;
@@ -81,6 +83,7 @@ public class Testing extends ApplicationAdapter implements GestureDetector.Gestu
 		time=porctime;
 		 gest = new GestureDetector(this);
 		 Gdx.input.setInputProcessor(gest);
+		timeforshoot = System.nanoTime();
 		
 		
 
@@ -151,6 +154,8 @@ public class Testing extends ApplicationAdapter implements GestureDetector.Gestu
 			dead(game,guns);
 			drawbullets(game,guns,player1);
 			generateenemies(map);
+			moveenemies();
+			shootingene();
 			drawenemies(game);
 			game.end();
 		}
@@ -158,10 +163,89 @@ public class Testing extends ApplicationAdapter implements GestureDetector.Gestu
 	}
 
 
+	private void shootingene() {
+		// TODO Auto-generated method stub
+			if(((System.nanoTime()-timeforshoot)/1000000)>2000){
+				for(int i=0;i<enemies.size();i++){
+				glock temp = new glock(enemies.get(i).getX(),enemies.get(i).getY());
+				Bullet enemybullets = new Bullet(enemies.get(i).getX(),enemies.get(i).getY(),temp,enemies.get(i).getface());
+				ebullets.add(enemybullets);
+				}
+				
+				timeforshoot=System.nanoTime();
+			}
+		
+	}
+	private void moveenemies() {
+		// TODO Auto-generated method stub
+		for(int i=0;i<enemies.size();i++){
+			calculatenewpos(enemies.get(i));
+		}
+		
+	}
+	private void calculatenewpos(Enemy enemy) {
+		// TODO Auto-generated method stub
+	if(enemy.getY() != player1.getY()){
+			if(Math.abs(player1.getY() - enemy.getY()) > 2){
+				if(player1.getY()<enemy.getY()){
+					enemy.setY(enemy.getY() - 2);
+					enemy.setface(0);
+				}
+					else{
+						enemy.setY(enemy.getY() + 2);
+						enemy.setface(1);
+					}
+			}
+			else if (Math.abs(player1.getY() - enemy.getY()) <= 2)
+				enemy.setY(player1.getY());
+	}
+	else if(enemy.getY() == player1.getY()){
+			if(Math.abs(player1.getX() - enemy.getX()) > 2){
+					if(player1.getX()<enemy.getX()){
+					enemy.setX(enemy.getX() - 2);
+					enemy.setface(2);
+					}
+					else{
+						enemy.setX(enemy.getX() + 2);	
+						enemy.setface(3);
+					}
+				
+				
+				}
+			//	else
+			//		enemy.setX(player1.getX());
+			
+			
+			}
+
+		}
+		
 	private void drawenemies(SpriteBatch batch) {
 		// TODO Auto-generated method stub
+		updatebullets();
 		for(int i=0;i<enemies.size();i++)
 			enemies.get(i).draw(batch);
+		for(int j=0;j<ebullets.size();j++)
+		{
+			ebullets.get(j).draw(batch);
+		}
+		
+	}
+	private void updatebullets() {
+		// TODO Auto-generated method stub
+		Collision enebullets = new Collision(paredes);
+		for(int j=0;j<ebullets.size();j++)
+		{
+			if(enebullets.shoots(ebullets.get(j), ebullets.get(j).getgun()))
+				ebullets.remove(j);
+			else if(enebullets.hit(ebullets.get(j), player1, ebullets.get(j).getgun()))
+			{
+				ebullets.remove(j);
+				player1.setHealth(player1.getHealth() - 70);
+			}
+			else
+			ebullets.get(j).update();
+		}
 		
 	}
 	private void generateenemies(int[][] map) {
@@ -169,8 +253,10 @@ public class Testing extends ApplicationAdapter implements GestureDetector.Gestu
 		Random y = new Random();
 		int k = y.nextInt(100);
 		if(k == 7){
+
 		Enemy enemy = new Enemy(map,paredes);
 		enemies.add(enemy);
+		System.out.println(enemies.size());
 		}
 	}
 	private void dead(SpriteBatch game2, ArrayList<Gun> guns2) {

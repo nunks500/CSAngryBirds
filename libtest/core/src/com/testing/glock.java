@@ -43,6 +43,14 @@ public class glock extends Gun{
 		
 	}
 	
+	glock(int x,int y){
+		X=x;
+		Y=y;
+		shooting=false;
+		time = -1;
+		androidspace = false;
+	}
+	
 
 
 	public void draw(SpriteBatch game,int facing){

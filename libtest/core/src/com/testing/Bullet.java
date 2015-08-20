@@ -21,6 +21,17 @@ public class Bullet {
 		
 	}
 	
+	public Bullet(int x, int y,int facing) {
+		// TODO Auto-generated constructor stub
+		X = x;
+		Y=y;
+		this.facing = facing;
+		ak47t = new Sprite(new Texture("ak47t.png"));
+		glockt = new Sprite(new Texture("glockt.png"));
+		bazukat = new Sprite(new Texture("bazukat.png"));
+		
+	}
+	
 	public void draw(SpriteBatch batch){
 		if(gun instanceof m4a1){
 			batch.draw(ak47t,X,Y);
@@ -77,4 +88,15 @@ public class Bullet {
 	}
 	}
 	
+	public void setX(int x){
+		X=x;
+	}
+	
+	public void setY(int y){
+		Y=y;
+	}
+	
+	public Gun getgun(){
+		return gun;
+	}
 }

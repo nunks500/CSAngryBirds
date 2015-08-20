@@ -9,7 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class Player extends Entity{
 	int X;
 	int Y;
-	int idweapon;
+	int idweapon,Health = 1000;
 	Sprite playerf,playerb,playerl,playerr;
 	int facing;
 	private Collision collision;
@@ -162,6 +162,12 @@ public class Player extends Entity{
 		}
 	}
 	
+	public void setHealth(int health){
+		Health = health;
+	}
 	
+	public int getHealth(){
+		return Health;
+	}
 	
 }
