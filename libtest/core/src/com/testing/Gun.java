@@ -14,6 +14,7 @@ abstract public class Gun {
 	int pickedup;
 	Rectangle area;
 	Boolean shooting,androidspace;
+	int ammo;
 	
 	abstract public void draw(SpriteBatch game,int facing);
 	abstract public int getX();
@@ -30,6 +31,8 @@ abstract public class Gun {
 	abstract public void setandroidspace(Boolean android);
 	abstract public Boolean getandroidspace();
 	abstract public ArrayList<Bullet> getbullets();
-
+	public int getammo(){
+		return ammo;
+	}
 	
 }

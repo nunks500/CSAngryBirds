@@ -39,6 +39,7 @@ public class m4a1 extends Gun{
 		pickedup = 0;
 		shooting = false;
 		time = -1;
+		ammo=40;
 	}
 	@Override
 	public void draw(SpriteBatch game, int facing) {
@@ -88,24 +89,28 @@ public class m4a1 extends Gun{
 	public boolean animaçaoarma(int facing) {
 		// TODO Auto-generated method stub
 		if(time==-1){
-		if(Gdx.input.isKeyPressed(Input.Keys.SPACE) || androidspace)
+		if((Gdx.input.isKeyPressed(Input.Keys.SPACE) || androidspace) && (ammo>0))
 			{ 
 				time=System.nanoTime();
 				if(facing == 0){
 				Bullet bullet = new Bullet(X,Y,this,facing);
 				bullets.add(bullet);
+				ammo--;
 				}
 				else if(facing == 1){
 					Bullet bullet = new Bullet(X + 10,Y + 20,this,facing);
 					bullets.add(bullet);
+					ammo--;
 					}
 				else if(facing == 2){
 					Bullet bullet = new Bullet(X - 20,Y + 20,this,facing);
 					bullets.add(bullet);
+					ammo--;
 					}
 				else if(facing == 3){
 					Bullet bullet = new Bullet(X + 20,Y + 20,this,facing);
 					bullets.add(bullet);
+					ammo--;
 					}
 				
 				return true;

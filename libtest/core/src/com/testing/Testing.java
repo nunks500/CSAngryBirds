@@ -8,23 +8,17 @@ import java.util.Random;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.g3d.utils.CameraInputController;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.input.GestureDetector;
-import com.badlogic.gdx.input.GestureDetector.GestureListener;
-import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -40,19 +34,19 @@ public class Testing extends ApplicationAdapter implements GestureDetector.Gestu
 	final float gameheight = 480;
 	int CurrentOption=0,start=0,exit=70,porcoposinit=-50,index=0,nextone=0,index2=0,birdframes=0,androidenter=0;
 	long previoustime; //identifies where the user is(which option)
-	float time,porctime,testx,testy,timeforshoot=0;
+	float time,porctime,testx,testy,timeforshoot=0,timeforshoot2,enemiezt;
 	Animation bird;
 	private ArrayList<Sprite> animat = new ArrayList<Sprite>();
 	private ArrayList<Wall> paredes = new ArrayList<Wall>();
 	private ArrayList<Gun> guns = new ArrayList<Gun>();
 	private ArrayList<Enemy> enemies = new ArrayList<Enemy>();
 	private ArrayList<Bullet> ebullets = new ArrayList<Bullet>();
-	
+	BitmapFont yourBitmapFontName;
 	Player player1;
 	private int[][] map = {{1,1,1,1,1,1,1,1,1,1,1,1,1,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,1,1,1,1,1,1,1,1,1,1,1,1,1}};
 	Collision collision,armaz;
 	GestureDetector gest;
-	
+	int enemiez = 2016,Highscore = 0;
 
 
 
@@ -93,8 +87,9 @@ public class Testing extends ApplicationAdapter implements GestureDetector.Gestu
 		 gest = new GestureDetector(this);
 		 Gdx.input.setInputProcessor(gest);
 		timeforshoot = System.nanoTime();
-		
-		
+		timeforshoot2 = System.nanoTime();
+		enemiezt = System.nanoTime();
+		yourBitmapFontName = new BitmapFont();
 
 
 
@@ -153,6 +148,7 @@ public class Testing extends ApplicationAdapter implements GestureDetector.Gestu
 		else if(CurrentState.equals("Game")){
 			game.setProjectionMatrix(camera.combined);
 			game.begin();
+
 			collision = new Collision(paredes,player1);
 			player1.setcol(collision);
 			player1.draw(game);
@@ -167,6 +163,7 @@ public class Testing extends ApplicationAdapter implements GestureDetector.Gestu
 			hekilled();
 			moveenemies();
 			shootingene();
+			deletedead();
 			drawenemies(game);
 			game.end();
 		}
@@ -174,8 +171,18 @@ public class Testing extends ApplicationAdapter implements GestureDetector.Gestu
 	}
 
 
+	private void deletedead() {
+		// TODO Auto-generated method stub
+		for(int i=0;i<enemies.size();i++){
+			if(enemies.get(i).getTipo() == 3 && enemies.get(i).getexplode() == 2){
+				enemies.remove(i);
+				
+			}
+		}
+		
+	}
 	private void drawHealthbar(SpriteBatch game) {
-		System.out.println(player1.getHealth());
+		
 		if(player1.getHealth() == 1000)
 	game.draw(hp,0,Gdx.graphics.getHeight()- hp.getHeight());
 		else if(player1.getHealth() > 700)
@@ -187,7 +194,11 @@ public class Testing extends ApplicationAdapter implements GestureDetector.Gestu
 		else
 			game.draw(hp4,0,Gdx.graphics.getHeight()- hp4.getHeight());
 
-
+		yourBitmapFontName.setColor(1.0f, 1.0f, 1.0f, 1.0f);
+		yourBitmapFontName.draw(game,"Health: " +  Integer.toString(player1.getHealth()), hp1.getWidth(), Gdx.graphics.getHeight()); 
+		yourBitmapFontName.draw(game,"Highscore: " +  Integer.toString(Highscore), hp1.getWidth(), Gdx.graphics.getHeight() - 20); 
+		if(player1.getgun() != null)
+			yourBitmapFontName.draw(game,"Ammo: " +  Integer.toString(player1.getgun().getammo()), hp1.getWidth(), Gdx.graphics.getHeight() - 40); 
 	}
 	private void hekilled() {
 		// TODO Auto-generated method stub
@@ -197,7 +208,22 @@ public class Testing extends ApplicationAdapter implements GestureDetector.Gestu
 			for(int j=0;j<enemies.size();j++){
 				if(player1.getgun().getbullets().size()!=0 && enemies.size()!=0){
 				if(col.hite(player1.getgun().getbullets().get(i),enemies.get(j),player1.getgun())){
-					enemies.remove(j);
+					
+					if(player1.getgun() instanceof glock)
+					enemies.get(j).setHealth(enemies.get(j).getHealth() - 80);
+					else if(player1.getgun() instanceof m4a1)
+						enemies.get(j).setHealth(enemies.get(j).getHealth() - 180);
+					else if(player1.getgun() instanceof ak47)
+						enemies.get(j).setHealth(enemies.get(j).getHealth() - 250);
+					else if(player1.getgun() instanceof Bazuka)
+						enemies.get(j).setHealth(enemies.get(j).getHealth() - 500);
+					
+					
+					if(enemies.get(j).getHealth() < 0){
+						addHighscore(enemies.get(j));
+						enemies.remove(j);
+						
+					}
 					player1.getgun().getbullets().remove(i);
 					if(j>0)
 					j--;
@@ -210,13 +236,27 @@ public class Testing extends ApplicationAdapter implements GestureDetector.Gestu
 		}
 		}
 	}
+	private void addHighscore(Enemy enemy) {
+		// TODO Auto-generated method stub
+		if(enemy.getTipo() == 1)
+			Highscore += 100;
+		else if(enemy.getTipo() == 2)
+			Highscore += 150;
+		else if(enemy.getTipo() == 3)
+			Highscore += 300;
+		else if(enemy.getTipo() == 4)
+			Highscore += 450;
+		
+	}
 	private void shootingene() {
 		// TODO Auto-generated method stub
 			if(((System.nanoTime()-timeforshoot)/1000000)>2000){
 				for(int i=0;i<enemies.size();i++){
+					if(enemies.get(i).getTipo() == 1){
 				glock temp = new glock(enemies.get(i).getX(),enemies.get(i).getY());
 				Bullet enemybullets = new Bullet(enemies.get(i).getX(),enemies.get(i).getY(),temp,enemies.get(i).getface());
 				ebullets.add(enemybullets);
+					}
 				}
 				
 				timeforshoot=System.nanoTime();
@@ -232,6 +272,7 @@ public class Testing extends ApplicationAdapter implements GestureDetector.Gestu
 	}
 	private void calculatenewpos(Enemy enemy) {
 		// TODO Auto-generated method stub
+		if(enemy.getTipo() == 1){
 	if(enemy.getY() != player1.getY()){
 			if(Math.abs(player1.getY() - enemy.getY()) > 2){
 				if(player1.getY()<enemy.getY()){
@@ -264,6 +305,42 @@ public class Testing extends ApplicationAdapter implements GestureDetector.Gestu
 			
 			
 			}
+		}
+		
+		else if(enemy.getTipo() == 2)
+		{
+			
+					if(Math.abs(player1.getX() - enemy.getX()) > 2){
+							if(player1.getX()<enemy.getX()){
+							enemy.setX(enemy.getX() - 2);
+							enemy.setface(2);
+							}
+							else{
+								enemy.setX(enemy.getX() + 2);	
+								enemy.setface(3);
+							}
+						
+						
+						}
+						else
+							enemy.setX(player1.getX());
+					
+					if(player1.getX() == enemy.getX()){
+				if(Math.abs(player1.getY() - enemy.getY()) > 2){
+					if(player1.getY()<enemy.getY()){
+						enemy.setY(enemy.getY() - 2);
+						enemy.setface(0);
+					}
+						else{
+							enemy.setY(enemy.getY() + 2);
+							enemy.setface(1);
+						}
+				}
+				else if (Math.abs(player1.getY() - enemy.getY()) <= 2)
+					enemy.setY(player1.getY());
+					}
+
+		}
 
 		}
 		
@@ -296,16 +373,37 @@ public class Testing extends ApplicationAdapter implements GestureDetector.Gestu
 			ebullets.get(j).update();
 		}
 		
+		for(int i=0;i<enemies.size();i++){
+			if(enemies.get(i).getTipo() == 2 || enemies.get(i).getTipo() == 3){
+				if(enebullets.hit2(enemies.get(i), player1)){
+					if(enemies.get(i).getTipo() == 2)
+					player1.setHealth(player1.getHealth() - 3);
+					else if(enemies.get(i).getTipo() == 3 && enemies.get(i).getexplode() == 1){
+						player1.setHealth(player1.getHealth() - 330);
+						enemies.remove(i);
+					}
+				if(player1.getHealth() < 0)
+					CurrentState = "Game Over";		
+				}
+			}
+		}
+		
+		
 	}
 	private void generateenemies(int[][] map) {
 		// TODO Auto-generated method stub
+		if(((System.nanoTime()-enemiezt)/1000000)>3000 && enemiez >= 235){
+			enemiezt = System.nanoTime();
+			enemiez -= 200;
+		}
 		Random y = new Random();
-		int k = y.nextInt(100);
+		int k = y.nextInt(enemiez);
+		
 		if(k == 7){
 
 		Enemy enemy = new Enemy(map,paredes);
 		enemies.add(enemy);
-		System.out.println(enemies.size());
+		
 		}
 	}
 	private void dead(SpriteBatch game2, ArrayList<Gun> guns2) {
@@ -367,6 +465,7 @@ public class Testing extends ApplicationAdapter implements GestureDetector.Gestu
 		if(temp == 150 &&  guns.size() < 5){
 			Random tipoarma = new Random();
 			int arma = tipoarma.nextInt(10);
+		
 			if(arma <= 5){
 				Boolean check = false;
 				glock glock = null;

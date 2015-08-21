@@ -40,7 +40,7 @@ public class glock extends Gun{
 		shooting=false;
 		time = -1;
 		androidspace = false;
-		
+		ammo = 50;
 	}
 	
 	glock(int x,int y){
@@ -184,24 +184,28 @@ public class glock extends Gun{
 	public boolean animaçaoarma(int facing) {
 		// TODO Auto-generated method stub
 		if(time==-1){
-			if(Gdx.input.isKeyPressed(Input.Keys.SPACE) || androidspace)
+			if((Gdx.input.isKeyPressed(Input.Keys.SPACE) || androidspace) && (ammo>0))
 			{
 				time=System.nanoTime();
 				if(facing == 0){
 				Bullet bullet = new Bullet(X + 40,Y,this,facing);
 				bullets.add(bullet);
+				ammo--;
 				}
 				else if(facing == 1){
 					Bullet bullet = new Bullet(X+25,Y,this,facing);
 					bullets.add(bullet);
+					ammo--;
 					} 
 				else if(facing == 2){
 					Bullet bullet = new Bullet(X,Y + 20,this,facing);
 					bullets.add(bullet);
+					ammo--;
 					} 
 				else if(facing == 3){
 					Bullet bullet = new Bullet(X + 10,Y + 20,this,facing);
 					bullets.add(bullet);
+					ammo--;
 					} 
 				androidspace=false;
 				return true;

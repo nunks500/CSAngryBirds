@@ -20,6 +20,7 @@ public class ak47 extends Gun{
 	Rectangle area;
 	Boolean shooting,androidspace;
 	float time;
+	
 	ArrayList<Bullet> bullets = new ArrayList<Bullet>();
 
 	
@@ -40,6 +41,7 @@ public class ak47 extends Gun{
 		pickedup = 0;
 		time = -1;
 		androidspace=false;
+		ammo = 30;
 	}
 	
 
@@ -177,24 +179,28 @@ public class ak47 extends Gun{
 	public boolean animaçaoarma(int facing) {
 		// TODO Auto-generated method stub
 		if(time==-1){
-			if(Gdx.input.isKeyPressed(Input.Keys.SPACE) || androidspace)
+			if((Gdx.input.isKeyPressed(Input.Keys.SPACE) || androidspace) && (ammo>0))
 			{
 				time=System.nanoTime();
 				if(facing == 0){
 				Bullet bullet = new Bullet(X,Y,this,facing);
 				bullets.add(bullet);
+				ammo--;
 				}
 				else if(facing == 1){
 					Bullet bullet = new Bullet(X + 10,Y,this,facing);
 					bullets.add(bullet);
+					ammo--;
 					}
 				else if(facing == 2){
 					Bullet bullet = new Bullet(X - 20,Y + 20,this,facing);
 					bullets.add(bullet);
+					ammo--;
 					}
 				else if(facing == 3){
 					Bullet bullet = new Bullet(X + 20,Y + 20,this,facing);
 					bullets.add(bullet);
+					ammo--;
 					}
 				
 				return true;

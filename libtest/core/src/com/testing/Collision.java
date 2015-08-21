@@ -127,5 +127,29 @@ public class Collision {
 		
 		
 	}
+	
+	public Boolean hit2(Enemy enemy, Player player){
+		int id = player.getfacing();
+		Sprite temp2 = enemy.getSprite();
+		Rectangle enemi = new Rectangle((float) enemy.getX(),(float) enemy.getY(),temp2.getWidth(),temp2.getHeight());
+		if(id==0){
+			 chara = new Rectangle(player.getX(),player.getY()-5,51,46);
+			}
+			else if(id==1){
+			 chara = new Rectangle(player.getX(),player.getY() + 5,51,46);
+			}
+			else if(id==2){
+				chara = new Rectangle(player.getX() - 5,player.getY(),51,46);
+				}
+			else if(id==3){
+				 chara = new Rectangle(player.getX() + 5,player.getY(),51,46);
+				}
+		
+		if(chara.overlaps(enemi))
+			return true;
+		else
+			return false;
+		
+	}
 		
 }

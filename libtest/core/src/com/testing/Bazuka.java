@@ -36,6 +36,7 @@ public class Bazuka extends Gun{
 		shooting =false;
 		time = -1;
 		androidspace=false;
+		ammo = 10;
 	}
 	
 
@@ -67,11 +68,15 @@ public class Bazuka extends Gun{
 
 	private void shoot(int facing) {
 		// TODO Auto-generated method stub
-		if(Gdx.input.isKeyPressed(Input.Keys.SPACE) || androidspace)
+		if(pickedup == 1){
+		if((Gdx.input.isKeyPressed(Input.Keys.SPACE) || androidspace) && (ammo>0))
 		{	
 			Bullet bullet = new Bullet(X,Y,this,facing);
 			bullets.add(bullet);
 			androidspace = false;
+			ammo--;
+		}
+		
 		}
 	}
 
@@ -159,7 +164,7 @@ public class Bazuka extends Gun{
 	public boolean animaçaoarma(int facing) {
 		// TODO Auto-generated method stub
 		if(time==-1){
-			if(Gdx.input.isKeyPressed(Input.Keys.SPACE) || androidspace)
+			if((Gdx.input.isKeyPressed(Input.Keys.SPACE) || androidspace) && (ammo>0))
 			{
 				
 				time=System.nanoTime();
