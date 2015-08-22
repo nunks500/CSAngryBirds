@@ -46,9 +46,9 @@ public class Enemy extends Entity{
 		t1f = new Sprite(new Texture("t1f.png"));
 		t2r = new Sprite(new Texture("t2r.png"));
 		t2l = new Sprite(new Texture("t2l.png"));
-		t3r = new Sprite(new Texture("t3r.png"));
+		t3r = new Sprite(new Texture("tem.png"));
 		t3 = new Sprite(new Texture("t3.png"));
-		tem = new Sprite(new Texture("tem.png"));
+		tem = new Sprite(new Texture("t3r.png"));
 		exo = new Sprite(new Texture("exo.png"));
 		exo2 = new Sprite(new Texture("exo2.png"));
 		t4r = new Sprite(new Texture("t4r.png"));
