@@ -41,6 +41,15 @@ public class m4a1 extends Gun{
 		time = -1;
 		ammo=40;
 	}
+	
+	m4a1(int x,int y){
+		X=x;
+		Y=y;
+		shooting=false;
+		time = -1;
+		androidspace = false;
+	}
+	
 	@Override
 	public void draw(SpriteBatch game, int facing) {
 		// TODO Auto-generated method stub

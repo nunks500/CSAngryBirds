@@ -93,6 +93,18 @@ public class Collision {
 		 return false;
 	}
 	
+	public Boolean enemywall2(Enemy enemy){
+		Sprite temp = enemy.getSprite();
+		Rectangle enemi = new Rectangle((float) enemy.gett4x(),(float) enemy.gett4y(),temp.getWidth(),temp.getHeight());
+		for(int i=0;i<paredes.size();i++){
+			Rectangle wall1 = new Rectangle(paredes.get(i).getX(),paredes.get(i).getY(),paredes.get(i).getsprite().getWidth(),paredes.get(i).getsprite().getHeight()-5);
+			if(enemi.overlaps(wall1))
+				return true;
+		}
+		
+		 return false;
+	}
+	
 	public Boolean hit(Bullet bullet,Player player,Gun gun){
 		Sprite temp = bullet.corresponding(gun);
 		Rectangle bulet = new Rectangle((float) bullet.getX(),(float) bullet.getY(),temp.getWidth(),temp.getHeight());

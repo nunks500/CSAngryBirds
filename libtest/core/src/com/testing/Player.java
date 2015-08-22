@@ -127,7 +127,7 @@ public class Player extends Entity{
 
 	public void updatefacingandroid(float deltaX, float deltaY) {
 		// TODO Auto-generated method stub
-		if(Math.abs(deltaX) + 2 > Math.abs(deltaY)){
+		if(Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) >= 5 ){
 		if(deltaX > 0 )
 		{
 			facing = 3;
@@ -142,7 +142,7 @@ public class Player extends Entity{
 			}
 
 		}
-		else{
+		else if(Math.abs(deltaX) < Math.abs(deltaY) && Math.abs(deltaY) >= 5 ) {
 	 if (deltaY < 0 )
 			{
 			

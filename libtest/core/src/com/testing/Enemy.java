@@ -9,13 +9,14 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class Enemy extends Entity{
-	int X,Y,tipo,Health,facing;
-	Sprite t1r,t1l,t1f,t1b,t2r,t2l,t3r,tem,t3,exo,exo2;
-	float time,additional = 0,additional2=0;
+	int X,Y,tipo,Health,facing,t4X,t4Y;
+	Sprite t1r,t1l,t1f,t1b,t2r,t2l,t3r,tem,t3,exo,exo2,t4l,t4r;
+	float time,additional = 0,additional2=0,timerfort4;
 	int explode = 0;
 	Boolean trade = false;
 	Enemy(int[][] map,ArrayList<Wall> paredes){
 		Boolean check = false;
+		Boolean check2 = false;
 		Collision col = new Collision(paredes);
 		Random z = new Random();
 		int tipoz = z.nextInt(10);
@@ -38,7 +39,6 @@ public class Enemy extends Entity{
 			tipo= 4;
 		}
 
-
 		facing = 3;
 		t1r = new Sprite(new Texture("t1r.png"));
 		t1l = new Sprite(new Texture("t1l.png"));
@@ -51,7 +51,18 @@ public class Enemy extends Entity{
 		tem = new Sprite(new Texture("tem.png"));
 		exo = new Sprite(new Texture("exo.png"));
 		exo2 = new Sprite(new Texture("exo2.png"));
-		
+		t4r = new Sprite(new Texture("t4r.png"));
+		t4l = new Sprite(new Texture("t4l.png"));
+		if(tipo == 4){
+			while(check2 == false){
+				Random y = new Random();
+				t4Y = y.nextInt(Gdx.graphics.getHeight());
+				Random x = new Random();
+				t4X = x.nextInt(Gdx.graphics.getWidth());
+				if(t4X < (map.length*46)-23 && !col.enemywall2(this))//Checking collision of the gun with the walls and keeps them inside map
+				check2=true;
+				}
+		}
 		while(check == false){
 			Random y = new Random();
 			Y = y.nextInt(Gdx.graphics.getHeight());
@@ -60,6 +71,7 @@ public class Enemy extends Entity{
 			if(X < (map.length*46)-23 && !col.enemywall(this))//Checking collision of the gun with the walls and keeps them inside map
 			check=true;
 			}
+		timerfort4 = System.nanoTime();
 		
 	}
 	@Override
@@ -125,6 +137,23 @@ public class Enemy extends Entity{
 				else if(((System.nanoTime()-time)/1000000)>4000 && (System.nanoTime()-time)/1000000 > 5500)
 					explode = 2;
 		}
+		else if(tipo == 4){
+	if(facing == 0){
+				
+				batch.draw(t4r,X,Y);
+			}
+			else if(facing == 1){
+				batch.draw(t4r,X,Y);
+			}
+
+			else if(facing == 2){
+				batch.draw(t4l,X,Y);
+			}
+
+			else if(facing == 3){
+				batch.draw(t4r,X,Y);
+			}
+		}
 		}
 		
 
@@ -134,8 +163,10 @@ public class Enemy extends Entity{
 			return t1r;
 		else if(tipo == 2)
 			return t2r;
-		else
+		else if(tipo == 3)
 			return t3r;
+		else
+			return t4r;
 		
 	}
 	
@@ -176,5 +207,21 @@ public class Enemy extends Entity{
 	
 	public int getexplode(){
 		return explode;
+	}
+	
+	public int gett4x(){
+		return t4X;
+	}
+	public int gett4y(){
+		return t4Y;
+	}
+	
+	public void settimer(float timer)
+	{
+		timerfort4 = timer;
+	}
+	public float gettimer()
+	{
+		return timerfort4;
 	}
 }

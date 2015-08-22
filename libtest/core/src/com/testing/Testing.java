@@ -24,9 +24,9 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class Testing extends ApplicationAdapter implements GestureDetector.GestureListener{
 
-	SpriteBatch batch,game;
+	SpriteBatch batch,game,endi;
 	Rectangle wall1,chara;
-	Sprite img,img2,porco,pigshoot,exp10,exp1,exp2,exp3,porco2,tl,ml,bl,hp,hp1,hp2,hp3,hp4;
+	Sprite img,img2,porco,pigshoot,exp10,exp1,exp2,exp3,porco2,tl,ml,bl,hp,hp1,hp2,hp3,hp4,end,tryagain,quit;
 	String CurrentState;
 	OrthographicCamera camera;
 	Viewport viewport;
@@ -46,7 +46,8 @@ public class Testing extends ApplicationAdapter implements GestureDetector.Gestu
 	private int[][] map = {{1,1,1,1,1,1,1,1,1,1,1,1,1,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,0,0,0,0,0,0,0,0,0,0,0,0,1},{1,1,1,1,1,1,1,1,1,1,1,1,1,1}};
 	Collision collision,armaz;
 	GestureDetector gest;
-	int enemiez = 2016,Highscore = 0;
+	int enemiez = 2016,Highscore = 0,bullet4 = 0,velt2 =1;
+	
 
 
 
@@ -69,11 +70,15 @@ public class Testing extends ApplicationAdapter implements GestureDetector.Gestu
 		hp2 = new Sprite(new Texture("hp2.png"));
 		hp3 = new Sprite(new Texture("hp3.png"));
 		hp4 = new Sprite(new Texture("hp4.png"));
+		end = new Sprite(new Texture("END.png"));
+		tryagain = new Sprite(new Texture("tryagain.png"));
+		quit = new Sprite(new Texture("quit.png"));
 		animat.add(exp10);
 		animat.add(exp1);
 		animat.add(exp2);
 		animat.add(exp3);
 		batch = new SpriteBatch();
+		endi = new SpriteBatch();
 		img.setSize(1f,1f * img.getHeight() / img.getWidth() ); //Descomentar para fullscreen parcial
 		camera = new OrthographicCamera();
 		viewport = new ExtendViewport(gameheight,gameheight,camera);
@@ -139,7 +144,7 @@ public class Testing extends ApplicationAdapter implements GestureDetector.Gestu
 			else if((Gdx.input.isKeyPressed(Input.Keys.ENTER) || androidenter == 1) && CurrentOption == start)
 			{
 				CurrentState = "Game";
-				cleansprites();
+		//		cleansprites();
 				player1 = new Player();
 				game = new SpriteBatch();
 			}
@@ -166,6 +171,16 @@ public class Testing extends ApplicationAdapter implements GestureDetector.Gestu
 			deletedead();
 			drawenemies(game);
 			game.end();
+		}
+		else{
+			endi.setProjectionMatrix(camera.combined);
+			endi.begin(); 
+			endi.draw(end,0,0);
+			yourBitmapFontName.setColor(1.0f, 1.0f, 1.0f, 1.0f);
+			yourBitmapFontName.draw(endi,"Your Score: " +  Integer.toString(Highscore), 50,Gdx.graphics.getHeight() - 150);
+			endi.draw(tryagain,50,100);
+			endi.draw(quit,50,50);
+			endi.end();
 		}
 
 	}
@@ -258,8 +273,34 @@ public class Testing extends ApplicationAdapter implements GestureDetector.Gestu
 				ebullets.add(enemybullets);
 					}
 				}
-				
 				timeforshoot=System.nanoTime();
+			}
+			
+			for(int i=0;i<enemies.size();i++){
+		 if(enemies.get(i).getTipo() == 4 && enemies.get(i).getX() == enemies.get(i).gett4x() && enemies.get(i).getY() == enemies.get(i).gett4y()){	
+			 
+			 if(((System.nanoTime() - enemies.get(i).gettimer())/1000000) > 5000)
+				 enemies.get(i).settimer(System.nanoTime());
+			 else if(((System.nanoTime() - enemies.get(i).gettimer())/1000000) < 1500){
+				if(bullet4 == 3)
+					bullet4 = 0;
+				
+				 if(bullet4 ==0){
+			 m4a1 m4ai = new m4a1(enemies.get(i).getX(),enemies.get(i).getY());
+					Bullet enemybullets = new Bullet(enemies.get(i).getX() + 40,enemies.get(i).getY() + 30,m4ai,0);
+					Bullet enemybullets2 = new Bullet(enemies.get(i).getX() + 40,enemies.get(i).getY()+ 30,m4ai,1);
+					Bullet enemybullets3 = new Bullet(enemies.get(i).getX() + 40,enemies.get(i).getY()+ 30,m4ai,2);
+					Bullet enemybullets4 = new Bullet(enemies.get(i).getX() + 40,enemies.get(i).getY()+ 30,m4ai,3);
+					ebullets.add(enemybullets);
+					ebullets.add(enemybullets2);
+					ebullets.add(enemybullets3);
+					ebullets.add(enemybullets4);
+					bullet4++;
+				 }
+				 else
+					 bullet4++;
+				}
+		 }
 			}
 		
 	}
@@ -310,13 +351,13 @@ public class Testing extends ApplicationAdapter implements GestureDetector.Gestu
 		else if(enemy.getTipo() == 2)
 		{
 			
-					if(Math.abs(player1.getX() - enemy.getX()) > 2){
+					if(Math.abs(player1.getX() - enemy.getX()) > velt2){
 							if(player1.getX()<enemy.getX()){
-							enemy.setX(enemy.getX() - 2);
+							enemy.setX(enemy.getX() - velt2);
 							enemy.setface(2);
 							}
 							else{
-								enemy.setX(enemy.getX() + 2);	
+								enemy.setX(enemy.getX() + velt2);	
 								enemy.setface(3);
 							}
 						
@@ -326,20 +367,60 @@ public class Testing extends ApplicationAdapter implements GestureDetector.Gestu
 							enemy.setX(player1.getX());
 					
 					if(player1.getX() == enemy.getX()){
-				if(Math.abs(player1.getY() - enemy.getY()) > 2){
+				if(Math.abs(player1.getY() - enemy.getY()) > velt2){
 					if(player1.getY()<enemy.getY()){
-						enemy.setY(enemy.getY() - 2);
+						enemy.setY(enemy.getY() - velt2);
 						enemy.setface(0);
 					}
 						else{
-							enemy.setY(enemy.getY() + 2);
+							enemy.setY(enemy.getY() + velt2);
 							enemy.setface(1);
 						}
 				}
-				else if (Math.abs(player1.getY() - enemy.getY()) <= 2)
+				else if (Math.abs(player1.getY() - enemy.getY()) <= velt2)
 					enemy.setY(player1.getY());
 					}
 
+		}
+		
+		else if(enemy.getTipo() == 4){
+			
+			if(enemy.getX() != enemy.gett4x() || enemy.getY()!=enemy.gett4y())
+			{ 
+				if(Math.abs(enemy.gett4x() - enemy.getX()) > 2){
+					if(enemy.gett4x()<enemy.getX()){
+					enemy.setX(enemy.getX() - 2);
+					enemy.setface(2);
+					}
+					else{
+						enemy.setX(enemy.getX() + 2);	
+						enemy.setface(3);
+					}
+				
+				
+				}
+				else
+					enemy.setX(enemy.gett4x());
+			
+			if(enemy.gett4x() == enemy.getX()){
+			
+		if(Math.abs(enemy.gett4y() - enemy.getY()) > 2){
+			if(enemy.gett4y()<enemy.getY()){
+				enemy.setY(enemy.getY() - 2);
+				enemy.setface(0);
+			}
+				else{
+					enemy.setY(enemy.getY() + 2);
+					enemy.setface(1);
+				}
+			
+			
+		}
+		else 
+			enemy.setY(enemy.gett4y());
+			}
+			}
+			
 		}
 
 		}
@@ -387,6 +468,7 @@ public class Testing extends ApplicationAdapter implements GestureDetector.Gestu
 				}
 			}
 		}
+		
 		
 		
 	}
@@ -648,6 +730,22 @@ public class Testing extends ApplicationAdapter implements GestureDetector.Gestu
 		else if(CurrentState.equals("Game")){
 			if(player1.getgun() != null)
 			player1.getgun().setandroidspace(true);
+		}
+		else{
+			player1 = new Player();
+			enemies.clear();
+			ebullets.clear();
+			guns.clear();
+			Highscore = 0;
+			androidenter = 0;
+			player1.Health = 1000;
+			Rectangle tryagain2 = new Rectangle(50,100,tryagain.getWidth(),tryagain.getHeight());
+			Rectangle quit2 = new Rectangle(50,50,quit.getWidth(),quit.getHeight());
+			if(tryagain2.overlaps(tap))
+				CurrentState = "Game";
+			else if(quit2.overlaps(tap))
+				CurrentState = "Menu";
+			
 		}
 		return false;
 	}
